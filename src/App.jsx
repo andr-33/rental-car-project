@@ -1,9 +1,9 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Index from './pages/Index';
+import NotFound from './pages/NotFound';
 
 const theme = createTheme({
   palette: {
