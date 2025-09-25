@@ -12,7 +12,8 @@ import {
   Toolbar,
   IconButton,
   Paper,
-  Divider
+  Divider,
+  useTheme
 } from '@mui/material';
 import {
   Instagram,
@@ -33,6 +34,8 @@ import CarList from '../components/CarList/CarList';
 
 const Index = () => {
   const { language, toggleLanguage, translation } = useLanguage();
+  const theme = useTheme();
+
   const [selectedAirport, setSelectedAirport] = useState('');
   const [pickupDate, setPickupDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
@@ -168,7 +171,7 @@ const Index = () => {
             >
               {translation('heroSubtitle')}
             </Typography>
-            <Paper elevation={3} sx={{ py: 2, mx: 2, borderRadius: 3 }}>
+            <Paper elevation={3} sx={{ py: 3, mx: 2, borderRadius: 3 }}>
               <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
                 <Grid size={{ xs: 12, md: 6, lg: 2.4 }}>
                   <FormControl fullWidth>

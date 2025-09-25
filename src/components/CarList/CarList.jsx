@@ -40,7 +40,7 @@ const CarList = ({ rentalDays, translation, showCars }) => {
   if (!showCars) return null;
 
   return (
-    <Box sx={{ mt: 2, width: "100%", px: 2 }}>
+    <Box sx={{ my: 2, width: "100%", px: 2 }}>
       <Box>
         <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 2 }}>
           {translation("availableCars")}

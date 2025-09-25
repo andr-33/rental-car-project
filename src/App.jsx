@@ -1,23 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LanguageProvider } from './contexts/LanguageContext';
+import theme from "./theme.js"
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  },
-});
 
 const App = () => (
   <ThemeProvider theme={theme}>

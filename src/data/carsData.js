@@ -71,7 +71,7 @@ export const cars = [
   },
   {
     id: 6,
-    name: 'Mercedes-Benz C-Class',
+    name: 'Mercedes-Benz',
     category: 'Lujo',
     pricePerDay: 95,
     passengers: 5,

@@ -9,6 +9,7 @@ import {
   Divider,
   Modal,
   Backdrop,
+  useTheme
 } from '@mui/material';
 import { People, Settings, AcUnit } from '@mui/icons-material';
 import { useState } from 'react';
@@ -18,6 +19,8 @@ const CarCard = ({ car, rentalDays }) => {
   const { translation } = useLanguage();
   const totalPrice = rentalDays > 0 ? car.pricePerDay * rentalDays : 0;
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -68,7 +71,7 @@ const CarCard = ({ car, rentalDays }) => {
           <Typography variant="h6" fontWeight="bold">
             {car.name}
           </Typography>
-          <Chip label={car.category} color="primary" size="small" sx={{ my: 1 }} />
+          <Chip label={car.category} size="small" sx={{ my: 1 }} />
 
           <Grid container spacing={1}>
             <Grid item xs={4}>
@@ -121,7 +124,7 @@ const CarCard = ({ car, rentalDays }) => {
                 component={'span'} 
                 variant='body1' 
                 fontWeight='bold' 
-                color="#D9583B"
+                color="error"
               >
                 {totalPrice} €
               </Typography>
@@ -130,7 +133,7 @@ const CarCard = ({ car, rentalDays }) => {
 
           <Button
             variant="contained"
-            color="warning"
+            color="secondary"
             size="large"
             disabled={rentalDays === 0}
             sx={{ borderRadius: 2 }}

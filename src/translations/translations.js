@@ -10,7 +10,7 @@ export const translations = {
     availableCars: 'Autos Disponibles',
     pricePerDay: 'Precio por día',
     totalPrice: 'Precio total',
-    rentNow: 'Alquilar Ahora',
+    rentNow: 'Reserva ahora',
     passengers: 'Pasajeros',
     transmission: 'Transmisión',
     airConditioning: 'Aire Acondicionado',
