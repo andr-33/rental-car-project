@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Typography,
   Box,
@@ -22,6 +22,7 @@ import {
 } from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Language, Search } from '@mui/icons-material';
 import dayjs from 'dayjs';
@@ -34,14 +35,15 @@ import CarList from '../components/CarList/CarList';
 
 const Index = () => {
   const { language, toggleLanguage, translation } = useLanguage();
+  const { overview, updateOverview } = useOverview();
   const theme = useTheme();
+  console.log(overview);
 
   const [selectedAirport, setSelectedAirport] = useState('');
   const [pickupDate, setPickupDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
   const [showCars, setShowCars] = useState(false);
 
-  // Set dayjs locale based on current language
   dayjs.locale(language);
 
   const calculateRentalDays = () => {
@@ -59,6 +61,18 @@ const Index = () => {
   };
 
   const rentalDays = calculateRentalDays();
+
+  useEffect(()=>{
+    updateOverview("pickup_date", pickupDate);
+  }, [pickupDate]);
+
+  useEffect(()=>{
+    updateOverview("return_date", returnDate);
+  }, [returnDate]);
+
+  useEffect(()=>{
+    updateOverview("days", rentalDays);
+  }, [rentalDays]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
@@ -179,7 +193,10 @@ const Index = () => {
                     <Select
                       value={selectedAirport}
                       label={translation('selectAirport')}
-                      onChange={(e) => setSelectedAirport(e.target.value)}
+                      onChange={(e) => {
+                        setSelectedAirport(e.target.value);
+                        updateOverview("airport_id", e.target.value);
+                      }}
                     >
                       {airports.map((airport) => (
                         <MenuItem key={airport.id} value={airport.id}>
@@ -238,4 +255,8 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default () => (
+  <OverviewProvider>
+    <Index />
+  </OverviewProvider>
+);

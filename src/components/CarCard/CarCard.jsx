@@ -14,16 +14,24 @@ import {
 import { People, Settings, AcUnit } from '@mui/icons-material';
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useOverview } from '../../contexts/OverViewContext';
+
 
 const CarCard = ({ car, rentalDays }) => {
-  const { translation } = useLanguage();
-  const totalPrice = rentalDays > 0 ? car.pricePerDay * rentalDays : 0;
   const [open, setOpen] = useState(false);
   const theme = useTheme();
 
-
+  const { translation } = useLanguage();
+  const { updateOverview } = useOverview();
+  const totalPrice = rentalDays > 0 ? car.pricePerDay * rentalDays : 0;
+  
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const setOverviewInformation = () => {
+    updateOverview("total_amount", totalPrice);
+    updateOverview("card_id", car.id);
+  };
 
   return (
     <>
@@ -137,6 +145,7 @@ const CarCard = ({ car, rentalDays }) => {
             size="large"
             disabled={rentalDays === 0}
             sx={{ borderRadius: 2 }}
+            onClick={setOverviewInformation}
           >
             {translation('rentNow')}
           </Button>
@@ -167,10 +176,9 @@ const CarCard = ({ car, rentalDays }) => {
             transform: 'translate(-50%, -50%)',
             maxWidth: '90vw',
             maxHeight: '90vh',
-            width: { xs: '80%', sm: '70%', md: '50%' },
+            width: { xs: '95%', sm: '70%', md: '50%' },
             bgcolor: 'transparent',
             boxShadow: 0,
-            p: 2,
           }}
         >
           <Box
@@ -179,11 +187,11 @@ const CarCard = ({ car, rentalDays }) => {
             alt={`Enlarged view of ${car.name}`}
             sx={{
               width: '100%',
-              height: 'auto',
-              maxHeight: '80vh',
+              height: { xs: '25vh', sm: '50vh', md: '60vh' },
               objectFit: 'contain',
               borderRadius: 2,
               border: '2px solid #fff',
+              background: theme.palette.background.paper,
             }}
           />
         </Box>
