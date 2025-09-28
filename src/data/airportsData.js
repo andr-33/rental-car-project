@@ -16,5 +16,11 @@ export const airports = [
     name: 'Aeropuerto Internacional de Punta Cana',
     city: 'Punta Cana',
     code: 'PUJ'
-  }
+  },
+  {
+    id: 'SIT',
+    name: 'Aeropuerto Internacional del Cibao',
+    city: 'Santiago',
+    code: 'SIT'
+  },
 ];
