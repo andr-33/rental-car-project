@@ -18,20 +18,23 @@ import {
 import {
   Instagram,
   YouTube,
-  X
+  X,
+  Language,
+  Search
 } from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Language, Search } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import 'dayjs/locale/en';
 
 import { useLanguage } from '../contexts/LanguageContext';
 import { airports } from '../data/airportsData';
+
+import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
 import CarList from '../components/CarList/CarList';
+import OverviewDialog  from '../components/OverviewDialog/OverviewDialog';
 
 const Index = () => {
   const { language, toggleLanguage, translation } = useLanguage();
@@ -127,7 +130,7 @@ const Index = () => {
             position: "relative", 
             width: "100%", 
             height: showCars ? "40vh" : "100vh",
-            transition: "height 0.6s ease-in-out",
+            transition: "height 0.4s ease",
             overflow: "hidden"
           }}
         >
@@ -194,8 +197,12 @@ const Index = () => {
                       value={selectedAirport}
                       label={translation('selectAirport')}
                       onChange={(e) => {
-                        setSelectedAirport(e.target.value);
-                        updateOverview("airport_id", e.target.value);
+                        const airport = airports.find(
+                          (airport) => airport.id === e.target.value
+                        );
+                        setSelectedAirport(airport.id);
+                        updateOverview("airport_id", airport.id);
+                        updateOverview("airport_city", airport.city);
                       }}
                     >
                       {airports.map((airport) => (
@@ -236,7 +243,7 @@ const Index = () => {
                     startIcon={<Search />}
                     onClick={handleSearch}
                     disabled={!selectedAirport || !pickupDate || !returnDate}
-                    sx={{ height: 56, borderRadius: 3 }}
+                    sx={{ height: 56, borderRadius: "1em"}}
                   >
                     {translation('searchCars')}
                   </Button>
@@ -251,6 +258,7 @@ const Index = () => {
           showCars={showCars} 
         />
       </Box>
+      <OverviewDialog />
     </LocalizationProvider>
   );
 };

@@ -14,12 +14,15 @@ export const useOverview = () => {
 export const OverviewProvider = ({ children }) => {
   const [overview, _setOverview] = useState({
     airport_id: "",
-    card_id: null,
+    airport_city: "",
+    car_id: null,
+    car_name: null,
     pickup_date: null,
     return_date: null,
     days: 0,
     total_amount: 0.0,
   });
+  const [openOverviewDialog, _setOpenOverviewDialog] = useState(false);
 
   const updateOverview = (key, value) =>{
     _setOverview(prev => ({
@@ -28,8 +31,13 @@ export const OverviewProvider = ({ children }) => {
     }))
   };
 
+  const toggleOverviewDialog = () => {
+    _setOpenOverviewDialog(!openOverviewDialog);
+  };
+
+
   return (
-    <OverviewContext.Provider value={{ overview, updateOverview }}>
+    <OverviewContext.Provider value={{ overview, updateOverview, openOverviewDialog, toggleOverviewDialog }}>
       {children}
     </OverviewContext.Provider>
   );

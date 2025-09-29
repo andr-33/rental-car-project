@@ -40,6 +40,15 @@ const theme = createTheme({
             textTransform: 'none', // Desactiva las mayúsculas en botones
         },
     },
+    components:{
+        MuiButton:{
+            styleOverrides:{
+                root:{
+                    borderRadius: "0.8em"
+                }
+            }
+        }
+    },
 });
 
 export default theme;

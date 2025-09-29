@@ -22,15 +22,16 @@ const CarCard = ({ car, rentalDays }) => {
   const theme = useTheme();
 
   const { translation } = useLanguage();
-  const { updateOverview } = useOverview();
+  const { updateOverview, toggleOverviewDialog } = useOverview();
   const totalPrice = rentalDays > 0 ? car.pricePerDay * rentalDays : 0;
-  
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const setOverviewInformation = () => {
     updateOverview("total_amount", totalPrice);
-    updateOverview("card_id", car.id);
+    updateOverview("car_id", car.id);
+    updateOverview("car_name", car.name);
   };
 
   return (
@@ -79,16 +80,17 @@ const CarCard = ({ car, rentalDays }) => {
           <Typography variant="h6" fontWeight="bold">
             {car.name}
           </Typography>
-          <Chip label={car.category} size="small" sx={{ my: 1 }} />
-
           <Grid container spacing={1}>
-            <Grid item xs={4}>
+            <Grid size={6}>
+              <Chip label={car.category} size="small" sx={{ mb: 1 }} />
               <Box display="flex" alignItems="center" gap={0.5}>
                 <People fontSize="small" color="action" />
                 <Typography variant="body2">{car.passengers}</Typography>
+                <AcUnit fontSize="small" color="action" />
+                <Typography variant="body2">
+                  {car.airConditioning ? translation('yes') : translation('no')}
+                </Typography>
               </Box>
-            </Grid>
-            <Grid item xs={4}>
               <Box display="flex" alignItems="center" gap={0.5}>
                 <Settings fontSize="small" color="action" />
                 <Typography variant="body2">
@@ -98,60 +100,55 @@ const CarCard = ({ car, rentalDays }) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={4}>
-              <Box display="flex" alignItems="center" gap={0.5}>
-                <AcUnit fontSize="small" color="action" />
-                <Typography variant="body2">
-                  {car.airConditioning ? translation('yes') : translation('no')}
+            <Grid
+              size={6}
+              justifyItems={"end"}
+            >
+              <Typography variant="body2" color="text.secondary">
+                {translation('pricePerDay')}
+              </Typography>
+              <Typography variant="h6" color="primary">
+                {car.pricePerDay} € / día
+              </Typography>
+
+              {rentalDays > 0 && (
+                <Typography variant="body2" color='text.secondary'>
+                  {translation('totalPrice')}:&nbsp;
+                  <Typography
+                    component={'span'}
+                    variant='body1'
+                    fontWeight='bold'
+                    color="error"
+                  >
+                    {totalPrice} €
+                  </Typography>
                 </Typography>
-              </Box>
+              )}
             </Grid>
           </Grid>
-        </CardContent>
-
-        <Box
-          sx={{
-            minWidth: 160,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            gap: 1,
-          }}
-        >
-          <Typography variant="body2" color="text.secondary">
-            {translation('pricePerDay')}
-          </Typography>
-          <Typography variant="h6" color="primary">
-            {car.pricePerDay} € / día
-          </Typography>
-
-          {rentalDays > 0 && (
-            <Typography variant="body2" color='text.secondary'>
-              {translation('totalPrice')}:&nbsp;
-              <Typography 
-                component={'span'} 
-                variant='body1' 
-                fontWeight='bold' 
-                color="error"
-              >
-                {totalPrice} €
-              </Typography>
-            </Typography>
-          )}
-
-          <Button
+          <Box
+            sx={{
+              display: 'flex',
+              mt: 1,
+            }}
+            justifyContent={{ xs: 'center', md: 'flex-end' }}
+          >
+            <Button
             variant="contained"
             color="secondary"
             size="large"
             disabled={rentalDays === 0}
-            sx={{ borderRadius: 2 }}
-            onClick={setOverviewInformation}
+            onClick={() => {
+              setOverviewInformation();
+              toggleOverviewDialog();
+            }}
           >
             {translation('rentNow')}
           </Button>
-        </Box>
+          </Box>
+        </CardContent>
       </Box>
-      
+
       <Modal
         open={open}
         onClose={handleClose}

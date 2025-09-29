@@ -5,7 +5,7 @@ export const cars = [
     category: 'Económico',
     pricePerDay: 35,
     passengers: 5,
-    transmission: 'Automático',
+    transmission: 'automatic',
     airConditioning: true,
     images: [
       'https://images.dealer.com/ddc/vehicles/2020/Hyundai/Tucson/SUV/perspective/front-left/0018_24.png',
@@ -19,7 +19,7 @@ export const cars = [
     category: 'Económico',
     pricePerDay: 38,
     passengers: 5,
-    transmission: 'Automático',
+    transmission: 'manual',
     airConditioning: true,
     images: [
       'https://images.dealer.com/ddc/vehicles/2024/Kia/Sportage%20Hybrid/SUV/perspective/front-left/2024_24.png',
@@ -33,7 +33,7 @@ export const cars = [
     category: 'SUV',
     pricePerDay: 55,
     passengers: 7,
-    transmission: 'Automático',
+    transmission: 'manual',
     airConditioning: true,
     images: [
       'https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/453d5f81-71cc-402b-9201-75d8e1483099/b817d8cc-964a-4110-8d04-aaef0c6e38de.png',
@@ -47,7 +47,7 @@ export const cars = [
     category: 'SUV Grande',
     pricePerDay: 75,
     passengers: 8,
-    transmission: 'Automático',
+    transmission: 'automatic',
     airConditioning: true,
     images: [
       'https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/ada578a2-c082-43d8-b6f5-ff4c89355de4/b292e96e-f2bd-4063-977b-3d0ffc8694e7.png',
@@ -61,7 +61,7 @@ export const cars = [
     category: 'Premium',
     pricePerDay: 85,
     passengers: 5,
-    transmission: 'Automático',
+    transmission: 'manual',
     airConditioning: true,
     images: [
       'https://dealerimages.dealereprocess.com/image/upload/v1692292374/1/mazda/2024_CX5/2024_cx5_2_5_s_Premium_SoulRedCrystal_Car_0000.png',
@@ -75,7 +75,7 @@ export const cars = [
     category: 'Lujo',
     pricePerDay: 95,
     passengers: 5,
-    transmission: 'Automático',
+    transmission: 'manual',
     airConditioning: true,
     images: [
       'https://di-enrollment-api.s3.amazonaws.com/toyota/models/2024/highlander/colors/cypress_2024_highlander.png',
