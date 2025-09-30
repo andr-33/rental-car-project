@@ -42,7 +42,8 @@ const CarCard = ({ car, rentalDays }) => {
           flexDirection: { xs: 'column', md: 'row' },
           p: 2,
           alignItems: 'center',
-          bgcolor: 'white',
+          justifyContent: "center",
+          bgcolor: theme.palette.background.paper,
           borderRadius: 3,
           border: '1px solid #ccc',
           transition: 'box-shadow 0.3s ease-in',
@@ -58,6 +59,7 @@ const CarCard = ({ car, rentalDays }) => {
           sx={{
             width: { xs: '100%', md: 220 },
             height: { xs: 180, md: 140 },
+            mb: { xs: 2, md: 0 },
             objectFit: 'contain',
             borderRadius: 2,
             bgcolor: 'grey.100',
@@ -76,7 +78,13 @@ const CarCard = ({ car, rentalDays }) => {
         />
 
         {/* Detalles */}
-        <CardContent sx={{ flex: 1 }}>
+        <Box 
+          sx={{ 
+            flex: 1, 
+            px: 2, 
+            width: "100%"
+          }}
+        >
           <Typography variant="h6" fontWeight="bold">
             {car.name}
           </Typography>
@@ -130,23 +138,26 @@ const CarCard = ({ car, rentalDays }) => {
             sx={{
               display: 'flex',
               mt: 1,
+              justifyContent: { xs: 'center', md: 'flex-end' }
             }}
-            justifyContent={{ xs: 'center', md: 'flex-end' }}
           >
             <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            disabled={rentalDays === 0}
-            onClick={() => {
-              setOverviewInformation();
-              toggleOverviewDialog();
-            }}
-          >
-            {translation('rentNow')}
-          </Button>
+              variant="contained"
+              color="secondary"
+              size="large"
+              disabled={rentalDays === 0}
+              onClick={() => {
+                setOverviewInformation();
+                toggleOverviewDialog();
+              }}
+              sx={{
+                width: { xs: "100%", md: "auto" }
+              }}
+            >
+              {translation('rentNow')}
+            </Button>
           </Box>
-        </CardContent>
+        </Box>
       </Box>
 
       <Modal
