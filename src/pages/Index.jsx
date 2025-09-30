@@ -8,20 +8,10 @@ import {
   Select,
   MenuItem,
   Button,
-  AppBar,
-  Toolbar,
-  IconButton,
   Paper,
-  Divider,
   useTheme
 } from '@mui/material';
-import {
-  Instagram,
-  YouTube,
-  X,
-  Language,
-  Search
-} from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -30,17 +20,19 @@ import 'dayjs/locale/es';
 import 'dayjs/locale/en';
 
 import { useLanguage } from '../contexts/LanguageContext';
+import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
+
 import { airports } from '../data/airportsData';
 
-import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
 import CarList from '../components/CarList/CarList';
 import OverviewDialog  from '../components/OverviewDialog/OverviewDialog';
+import HomeAppBar from '../components/HomeAppBar/HomeAppBar';
+
 
 const Index = () => {
   const { language, toggleLanguage, translation } = useLanguage();
   const { overview, updateOverview } = useOverview();
   const theme = useTheme();
-  console.log(overview);
 
   const [selectedAirport, setSelectedAirport] = useState('');
   const [pickupDate, setPickupDate] = useState(null);
@@ -80,51 +72,7 @@ const Index = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-              {translation('title')}
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <IconButton
-                color="inherit"
-                component="a"
-                href="https://www.instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Instagram />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                component="a"
-                href="https://www.youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <YouTube />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                component="a"
-                href="https://www.x.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <X />
-              </IconButton>
-            </Box>
-            <Divider orientation="vertical" variant="middle" flexItem />
-            <Button
-              color="inherit"
-              startIcon={<Language />}
-              onClick={toggleLanguage}
-            >
-              {language === 'es' ? 'EN' : 'ES'}
-            </Button>
-          </Toolbar>
-        </AppBar>
-
+        <HomeAppBar />
         <Box
           sx={{
             position: "relative", 
@@ -184,13 +132,21 @@ const Index = () => {
                 color: "white",
                 fontWeight: "bold",
                 mb: 3,
+                fontSize: { xs: "2.25rem", md: "3rem" },
               }}
             >
               {translation('heroSubtitle')}
             </Typography>
-            <Paper elevation={3} sx={{ py: 3, mx: 2, borderRadius: 3 }}>
+            <Paper 
+              elevation={3} 
+              sx={{ 
+                p: { xs: 2, md: 3 }, 
+                mx: { xs: 2, md: 3 }, 
+                borderRadius: 3 
+              }}
+            >
               <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
-                <Grid size={{ xs: 12, md: 6, lg: 2.4 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                   <FormControl fullWidth>
                     <InputLabel>{translation('selectAirport')}</InputLabel>
                     <Select
@@ -214,7 +170,7 @@ const Index = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 6, lg: 2.4 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                   <DateTimePicker
                     label={translation('pickupDate')}
                     value={pickupDate}
@@ -224,7 +180,7 @@ const Index = () => {
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 6, lg: 2.4 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                   <DateTimePicker
                     label={translation('returnDate')}
                     value={returnDate}
@@ -234,7 +190,7 @@ const Index = () => {
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 6, lg: 2.4 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                   <Button
                     variant="contained"
                     color="primary"
