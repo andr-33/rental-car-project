@@ -5,12 +5,16 @@ import { viteSourceLocator } from "@metagptx/vite-plugin-source-locator";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  plugins: [
-    viteSourceLocator({
-      prefix: "mgx",
-    }),
-    react(),
-  ],
+  plugins: [react()],
+  server:{
+    proxy:{
+      "/api": {
+        target: "http://localhost:1314",
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

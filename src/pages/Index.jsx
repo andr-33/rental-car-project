@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   Typography,
   Box,
@@ -9,7 +10,6 @@ import {
   MenuItem,
   Button,
   Paper,
-  useTheme
 } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -27,13 +27,14 @@ import { airports } from '../data/airportsData';
 import CarList from '../components/CarList/CarList';
 import OverviewDialog  from '../components/OverviewDialog/OverviewDialog';
 import HomeAppBar from '../components/HomeAppBar/HomeAppBar';
+import { set } from 'react-hook-form';
 
 
 const Index = () => {
-  const { language, toggleLanguage, translation } = useLanguage();
-  const { overview, updateOverview } = useOverview();
-  const theme = useTheme();
+  const { language, translation } = useLanguage();
+  const { updateOverview } = useOverview();
 
+  const [airportsData, setAirportsData] = useState([]);
   const [selectedAirport, setSelectedAirport] = useState('');
   const [pickupDate, setPickupDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
@@ -68,6 +69,18 @@ const Index = () => {
   useEffect(()=>{
     updateOverview("days", rentalDays);
   }, [rentalDays]);
+
+  useEffect(()=>{
+    const fetchAirportsData = async () => {
+      try{
+        const airportsData = await axios.get("/api/airport/all-airports");
+        setAirportsData(airportsData.data);
+      } catch (error){
+        console.error("Error fetching airports data:", error);
+      }
+    };
+    fetchAirportsData();
+  },[]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
