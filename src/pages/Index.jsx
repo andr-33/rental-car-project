@@ -166,16 +166,16 @@ const Index = () => {
                       value={selectedAirport}
                       label={translation('selectAirport')}
                       onChange={(e) => {
-                        const airport = airports.find(
-                          (airport) => airport.id === e.target.value
+                        const airport = airportsData.find(
+                          (airport) => airport.code === e.target.value
                         );
-                        setSelectedAirport(airport.id);
-                        updateOverview("airport_id", airport.id);
+                        setSelectedAirport(airport.code);
+                        updateOverview("airport_code", airport.code);
                         updateOverview("airport_city", airport.city);
                       }}
                     >
-                      {airports.map((airport) => (
-                        <MenuItem key={airport.id} value={airport.id}>
+                      {airportsData.map((airport) => (
+                        <MenuItem key={airport.id} value={airport.code}>
                           {airport.code} - {airport.city}
                         </MenuItem>
                       ))}

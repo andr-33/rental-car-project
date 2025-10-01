@@ -23,7 +23,7 @@ const CarCard = ({ car, rentalDays }) => {
 
   const { translation } = useLanguage();
   const { updateOverview, toggleOverviewDialog } = useOverview();
-  const totalPrice = rentalDays > 0 ? car.pricePerDay * rentalDays : 0;
+  const totalPrice = rentalDays > 0 ? car.daily_price * rentalDays : 0;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -53,7 +53,7 @@ const CarCard = ({ car, rentalDays }) => {
         {/* Imagen */}
         <Box
           component="img"
-          src={car.images[0]}
+          src={car.images[0]?.url}
           alt={car.name}
           onClick={handleOpen}
           sx={{
@@ -90,13 +90,13 @@ const CarCard = ({ car, rentalDays }) => {
           </Typography>
           <Grid container spacing={1}>
             <Grid size={6}>
-              <Chip label={car.category} size="small" sx={{ mb: 1 }} />
+              <Chip label={"Confort"} size="small" sx={{ mb: 1 }} />
               <Box display="flex" alignItems="center" gap={0.5}>
                 <People fontSize="small" color="action" />
-                <Typography variant="body2">{car.passengers}</Typography>
+                <Typography variant="body2">{car.seats}</Typography>
                 <AcUnit fontSize="small" color="action" />
                 <Typography variant="body2">
-                  {car.airConditioning ? translation('yes') : translation('no')}
+                  {car.has_ac ? translation('yes') : translation('no')}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap={0.5}>
@@ -116,7 +116,7 @@ const CarCard = ({ car, rentalDays }) => {
                 {translation('pricePerDay')}
               </Typography>
               <Typography variant="h6" color="primary">
-                {car.pricePerDay} € / día
+                {car.daily_price} € / día
               </Typography>
 
               {rentalDays > 0 && (
@@ -191,7 +191,7 @@ const CarCard = ({ car, rentalDays }) => {
         >
           <Box
             component="img"
-            src={car.images[0]}
+            src={car.images[0]?.url}
             alt={`Enlarged view of ${car.name}`}
             sx={{
               width: '100%',

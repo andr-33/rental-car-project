@@ -8,11 +8,11 @@ import {
   Alert,
 } from "@mui/material";
 import CarCard from "../CarCard/CarCard";
-import { cars as localCars } from "../../data/carsData";
+import axios from "axios";
 
 const CarList = ({ rentalDays, translation, showCars }) => {
   const [loading, setLoading] = useState(false);
-  const [carData, setCarData] = useState([]);
+  const [carsData, setCarsData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -22,19 +22,18 @@ const CarList = ({ rentalDays, translation, showCars }) => {
     setError(null);
 
     // Simulación de llamada a API con setTimeout
-    const fetchCars = async () => {
+    const fetchCarsData = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // simula delay 2s
-        // Aquí en el futuro: const response = await fetch('/api/cars') ...
-        setCarData(localCars); // de momento usamos mock local
+        const carsData = await axios.get("/api/car/all-cars");
+        console.log(carsData.data);
+        setCarsData(carsData.data);
       } catch (err) {
         setError("Error al cargar los autos 🚨");
       } finally {
         setLoading(false);
       }
     };
-
-    fetchCars();
+    fetchCarsData();
   }, [showCars]);
 
   if (!showCars) return null;
@@ -60,7 +59,7 @@ const CarList = ({ rentalDays, translation, showCars }) => {
 
         {!loading && !error && (
           <Grid container spacing={2}>
-            {carData.map((car) => (
+            {carsData?.map((car) => (
               <Grid size={{ xs: 12, md: 6 }} key={car.id}>
                 <CarCard car={car} rentalDays={rentalDays} />
               </Grid>

@@ -60,7 +60,7 @@ const OverviewDialog = () => {
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h6">{translation("pickup")}</Typography>
               <Typography variant="body2">
-                {overview.airport_id} - {overview.airport_city}
+                {overview.airport_code} - {overview.airport_city}
               </Typography>
               <Typography variant="body2">
                 {dayjs(overview.pickup_date).format('DD/MM/YYYY HH:mm')}
@@ -69,7 +69,7 @@ const OverviewDialog = () => {
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h6">{translation("return")}</Typography>
               <Typography variant="body2">
-                {overview.airport_id} - {overview.airport_city}
+                {overview.airport_code} - {overview.airport_city}
               </Typography>
               <Typography variant="body2">
                 {dayjs(overview.return_date).format('DD/MM/YYYY HH:mm')}

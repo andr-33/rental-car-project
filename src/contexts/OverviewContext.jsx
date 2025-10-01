@@ -13,7 +13,7 @@ export const useOverview = () => {
 
 export const OverviewProvider = ({ children }) => {
   const [overview, _setOverview] = useState({
-    airport_id: "",
+    airport_code: "",
     airport_city: "",
     car_id: null,
     car_name: null,
