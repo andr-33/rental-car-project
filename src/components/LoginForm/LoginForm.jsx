@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
 const LoginForm = () => {
@@ -19,6 +20,7 @@ const LoginForm = () => {
   });
 
   const { translation } = useLanguage();
+  const { saveToken } = useAuth();
 
   const handleOnChange = (e) => {
     setLoginValues({
@@ -31,6 +33,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/user/login", loginValues);
+      saveToken(response.data.sessionToken);
       console.log(response.data);
     } catch (error) {
       console.log(error);

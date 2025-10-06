@@ -12,31 +12,31 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [accesToken, setAccessToken] = useState(null);
+  const [sessionToken, setSessionToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedAccessToken = sessionStorage.getItem("sessionToken");
     if (storedAccessToken) {
-      setAccessToken(storedAccessToken);
+      setSessionToken(storedAccessToken);
       setIsAuthenticated(true);
     }
   }, []);
 
   const saveToken = (token) => {
-    localStorage.setItem("accessToken", token);
-    setAccessToken(token);
+    sessionStorage.setItem("sessionToken", token);
+    setSessionToken(token);
     setIsAuthenticated(true);
   };
 
   const removeToken = () => {
-    localStorage.removeItem("accessToken");
-    setAccessToken(null);
+    localStorage.removeItem("sessionToken");
+    setSessionToken(null);
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ accesToken, isAuthenticated, saveToken, removeToken }}>
+    <AuthContext.Provider value={{ sessionToken, isAuthenticated, saveToken, removeToken }}>
       {children}
     </AuthContext.Provider>
   );
