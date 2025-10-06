@@ -1,21 +1,12 @@
 import {
   Box,
-  Button,
-  Container,
-  FormControl,
-  FormLabel,
-  Link,
-  TextField,
-  Typography,
   useTheme
 } from "@mui/material";
 
-import { useLanguage } from "../contexts/LanguageContext";
-
 import HomeAppBar from "../components/HomeAppBar/HomeAppBar";
+import LoginForm from "../components/LoginForm/LoginForm";
 
 const Auth = () => {
-  const { translation } = useLanguage();
   const theme = useTheme();
 
   return (
@@ -43,51 +34,7 @@ const Auth = () => {
             margin: "0 auto",
           }}
         >
-          <Box
-            component="form"
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-          >
-            <FormControl>
-              <FormLabel>{translation("email")}</FormLabel>
-              <TextField
-                name="email"
-                type="email"
-                required
-                fullWidth
-                placeholder={translation("emailPlaceholder")}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>{translation("password")}</FormLabel>
-              <TextField
-                name="password"
-                type="password"
-                required
-                fullWidth
-                placeholder="••••••"
-              />
-            </FormControl>
-            <Button
-              variant="contained"
-              fullWidth
-              type="submit"
-            >
-              {translation("login")}
-            </Button>
-            <Typography textAlign={"center"}>
-              <Link
-                sx={{
-                  cursor: "pointer"
-                }}
-              >
-                {translation("forgotPassword")}
-              </Link>
-            </Typography>
-          </Box>
+          <LoginForm />
         </Box>
       </Box>
     </Box>
