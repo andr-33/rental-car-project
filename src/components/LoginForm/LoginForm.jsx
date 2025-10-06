@@ -13,11 +13,34 @@ import { useLanguage } from "../../contexts/LanguageContext";
 import axios from "axios";
 
 const LoginForm = () => {
+  const [ loginValues, setLoginValues ] = useState({
+    email: "",
+    password: "",
+  });
+
   const { translation } = useLanguage();
+
+  const handleOnChange = (e) => {
+    setLoginValues({
+      ...loginValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/user/login", loginValues);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Box
       component="form"
+      onSubmit={handleSubmit}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -32,6 +55,8 @@ const LoginForm = () => {
           required
           fullWidth
           placeholder={translation("emailPlaceholder")}
+          onChange={handleOnChange}
+          value={loginValues.email}
         />
       </FormControl>
       <FormControl>
@@ -42,6 +67,8 @@ const LoginForm = () => {
           required
           fullWidth
           placeholder="••••••"
+          onChange={handleOnChange}
+          value={loginValues.password}
         />
       </FormControl>
       <Button
