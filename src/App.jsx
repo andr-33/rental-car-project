@@ -5,6 +5,8 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import theme from "./theme.js"
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
+import Auth from './pages/Auth';
+
 
 const App = () => (
   <ThemeProvider theme={theme}>
@@ -13,6 +15,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

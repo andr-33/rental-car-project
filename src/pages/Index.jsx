@@ -22,12 +22,9 @@ import 'dayjs/locale/en';
 import { useLanguage } from '../contexts/LanguageContext';
 import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
 
-import { airports } from '../data/airportsData';
-
 import CarList from '../components/CarList/CarList';
 import OverviewDialog  from '../components/OverviewDialog/OverviewDialog';
 import HomeAppBar from '../components/HomeAppBar/HomeAppBar';
-import { set } from 'react-hook-form';
 
 
 const Index = () => {

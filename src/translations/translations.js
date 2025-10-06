@@ -26,6 +26,14 @@ export const translations = {
     selectedCar: 'Vehículo seleccionado',
     requestReservation: 'Solicitar Reserva',
     orSimilar: 'o similar',
+    //Formularios
+    email: 'Correo electrónico',
+    emailPlaceholder: 'ejemplo@email.com',
+    password: 'Contraseña',
+    confirmPassword: 'Confirmar Contraseña',
+    signUp: 'Registrarse',
+    login: 'Iniciar Sesión',
+    forgotPassword: '¿Olvidaste tu contraseña?',
   },
   en: {
     title: 'Dominicar',
@@ -54,5 +62,13 @@ export const translations = {
     selectedCar: 'Selected car',
     requestReservation: 'Request Reservation',
     orSimilar: 'or similar',
+    //Formularios
+    email: 'Email',
+    emailPlaceholder: 'example@email.com',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    signUp: 'Sign Up',
+    login: 'Login',
+    forgotPassword: 'Forgot Password?',
   }
 };

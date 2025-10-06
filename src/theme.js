@@ -47,6 +47,25 @@ const theme = createTheme({
                     borderRadius: "0.8em"
                 }
             }
+        },
+        MuiTextField:{
+            styleOverrides:{
+                root:{
+                    "& .MuiOutlinedInput-root":{
+                        borderRadius: "0.8em",
+                        height: "45px"
+                    }
+                }
+            }
+        },
+        MuiFormLabel:{
+            styleOverrides:{
+                root:{
+                    marginBottom: "0.5em",
+                    fontWeight: "bold",
+                    fontSize: "1.2em"
+                }
+            }
         }
     },
 });
