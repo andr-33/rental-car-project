@@ -66,7 +66,15 @@ const theme = createTheme({
                     fontSize: "1.2em"
                 }
             }
-        }
+        },
+        MuiInputLabel:{
+            styleOverrides:{
+                root:{
+                    fontWeight: "normal",
+                    fontSize: "1em"
+                }
+            }
+        },
     },
 });
 
