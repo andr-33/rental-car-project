@@ -3,11 +3,15 @@ import {
   useTheme
 } from "@mui/material";
 
+import { NotificationProvider, useNotification } from "../contexts/NotificationContext";
+
 import HomeAppBar from "../components/HomeAppBar/HomeAppBar";
 import LoginForm from "../components/LoginForm/LoginForm";
+import Notification from "../components/Notification/Notification";
 
 const Auth = () => {
   const theme = useTheme();
+  const { notification, closeNotification } = useNotification();
 
   return (
     <Box sx={{
@@ -37,8 +41,16 @@ const Auth = () => {
           <LoginForm />
         </Box>
       </Box>
+      <Notification 
+        notification={notification} 
+        closeNotification={closeNotification}
+      />
     </Box>
   );
 };
 
-export default Auth;
+export default () => (
+  <NotificationProvider>
+    <Auth />
+  </NotificationProvider>
+);

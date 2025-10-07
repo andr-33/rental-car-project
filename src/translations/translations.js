@@ -34,6 +34,8 @@ export const translations = {
     signUp: 'Registrarse',
     login: 'Iniciar Sesión',
     forgotPassword: '¿Olvidaste tu contraseña?',
+    //Error
+    loginError: 'Revisa tus credenciales',
   },
   en: {
     title: 'Dominicar',
@@ -70,5 +72,7 @@ export const translations = {
     signUp: 'Sign Up',
     login: 'Login',
     forgotPassword: 'Forgot Password?',
+    //Error
+    loginError: 'Check your credentials',
   }
 };

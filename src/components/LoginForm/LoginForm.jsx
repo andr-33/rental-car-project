@@ -11,6 +11,7 @@ import {
 
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNotification } from "../../contexts/NotificationContext";
 import axios from "axios";
 
 const LoginForm = () => {
@@ -21,6 +22,8 @@ const LoginForm = () => {
 
   const { translation } = useLanguage();
   const { saveToken } = useAuth();
+  const { updateNotification, openNotification } = useNotification();
+
 
   const handleOnChange = (e) => {
     setLoginValues({
@@ -36,7 +39,9 @@ const LoginForm = () => {
       saveToken(response.data.sessionToken);
       console.log(response.data);
     } catch (error) {
-      console.log(error);
+      console.error(error.response.data.error.message);
+      updateNotification(error.response.data.error.code, "error");
+      openNotification();
     }
   };
 
