@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import {
-  Container,
   Typography,
   Grid,
   Box,
   CircularProgress,
   Alert,
 } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext"; 
+
 import CarCard from "../CarCard/CarCard";
 import axios from "axios";
 
@@ -15,19 +18,28 @@ const CarList = ({ rentalDays, translation, showCars }) => {
   const [carsData, setCarsData] = useState([]);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  const handleAllowRenting = () => {
+    if(!isAuthenticated){
+      navigate("/auth");
+    }
+  };
+
   useEffect(() => {
     if (!showCars) return;
 
     setLoading(true);
     setError(null);
 
-    // Simulación de llamada a API con setTimeout
     const fetchCarsData = async () => {
       try {
         const carsData = await axios.get("/api/car/all-cars");
-        console.log(carsData.data);
         setCarsData(carsData.data);
-      } catch (err) {
+      } catch (error) {
+        console.error(error.response.data.error.message);
+        
         setError("Error al cargar los autos 🚨");
       } finally {
         setLoading(false);
@@ -61,7 +73,11 @@ const CarList = ({ rentalDays, translation, showCars }) => {
           <Grid container spacing={2}>
             {carsData?.map((car) => (
               <Grid size={{ xs: 12, md: 6 }} key={car.id}>
-                <CarCard car={car} rentalDays={rentalDays} />
+                <CarCard 
+                  handleAllowRenting={handleAllowRenting}
+                  car={car} 
+                  rentalDays={rentalDays} 
+                />
               </Grid>
             ))}
           </Grid>

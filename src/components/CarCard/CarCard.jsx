@@ -1,6 +1,4 @@
 import {
-  Card,
-  CardContent,
   Typography,
   Button,
   Box,
@@ -16,13 +14,13 @@ import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useOverview } from '../../contexts/OverViewContext';
 
-
-const CarCard = ({ car, rentalDays }) => {
+const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
 
   const { translation } = useLanguage();
   const { updateOverview, toggleOverviewDialog } = useOverview();
+
   const totalPrice = rentalDays > 0 ? car.daily_price * rentalDays : 0;
 
   const handleOpen = () => setOpen(true);
@@ -147,6 +145,7 @@ const CarCard = ({ car, rentalDays }) => {
               size="large"
               disabled={rentalDays === 0}
               onClick={() => {
+                handleAllowRenting();
                 setOverviewInformation();
                 toggleOverviewDialog();
               }}

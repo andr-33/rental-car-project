@@ -21,24 +21,23 @@ import 'dayjs/locale/en';
 
 import { useLanguage } from '../contexts/LanguageContext';
 import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
-
-import { airports } from '../data/airportsData';
+import { NotificationProvider, useNotification } from '../contexts/NotificationContext';
 
 import CarList from '../components/CarList/CarList';
 import OverviewDialog  from '../components/OverviewDialog/OverviewDialog';
 import HomeAppBar from '../components/HomeAppBar/HomeAppBar';
-import { set } from 'react-hook-form';
-
+import Notification from '../components/Notification/Notification';
 
 const Index = () => {
-  const { language, translation } = useLanguage();
-  const { updateOverview } = useOverview();
-
   const [airportsData, setAirportsData] = useState([]);
   const [selectedAirport, setSelectedAirport] = useState('');
   const [pickupDate, setPickupDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
   const [showCars, setShowCars] = useState(false);
+
+  const { language, translation } = useLanguage();
+  const { updateOverview } = useOverview();
+  const { notification, closeNotification, updateNotification, openNotification } = useNotification();
 
   dayjs.locale(language);
 
@@ -76,7 +75,9 @@ const Index = () => {
         const airportsData = await axios.get("/api/airport/all-airports");
         setAirportsData(airportsData.data);
       } catch (error){
-        console.error("Error fetching airports data:", error);
+        console.error(error.response.data.error.message);
+        updateNotification(error.response.data.error.code, "error");
+        openNotification();
       }
     };
     fetchAirportsData();
@@ -228,12 +229,18 @@ const Index = () => {
         />
       </Box>
       <OverviewDialog />
+      <Notification
+        notification={notification}
+        closeNotification={closeNotification}
+      />
     </LocalizationProvider>
   );
 };
 
 export default () => (
-  <OverviewProvider>
-    <Index />
-  </OverviewProvider>
+  <NotificationProvider>
+    <OverviewProvider>
+      <Index />
+    </OverviewProvider>
+  </NotificationProvider>
 );
