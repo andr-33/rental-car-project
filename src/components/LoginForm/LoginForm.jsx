@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNotification } from "../../contexts/NotificationContext";
@@ -20,6 +21,7 @@ const LoginForm = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
   const { translation } = useLanguage();
   const { saveToken } = useAuth();
   const { updateNotification, openNotification } = useNotification();
@@ -37,7 +39,7 @@ const LoginForm = () => {
     try {
       const response = await axios.post("/api/user/login", loginValues);
       saveToken(response.data.sessionToken);
-      console.log(response.data);
+      navigate("/");
     } catch (error) {
       console.error(error.response.data.error.message);
       updateNotification(error.response.data.error.code, "error");
