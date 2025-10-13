@@ -29,11 +29,21 @@ export const translations = {
     //Formularios
     email: 'Correo electrónico',
     emailPlaceholder: 'ejemplo@email.com',
+    firstName: 'Nombre',
+    lastName: 'Apellidos',
+    address: 'Dirección',
+    phone: 'Teléfono',
+    country: 'País',
+    city: 'Ciudad',
+    zipCode: 'Código Postal',
     password: 'Contraseña',
     confirmPassword: 'Confirmar Contraseña',
     signUp: 'Registrarse',
     login: 'Iniciar Sesión',
     forgotPassword: '¿Olvidaste tu contraseña?',
+    //Overviwe
+    next: 'Siguiente',
+    previous: 'Anterior',
     //Error
     loginError: 'Revisa tus credenciales',
     getAirportsError: 'Error al obtener los aeropuertos',
@@ -69,11 +79,21 @@ export const translations = {
     //Formularios
     email: 'Email',
     emailPlaceholder: 'example@email.com',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    address: 'Address',
+    phone: 'Phone',
+    country: 'Country',
+    city: 'City',
+    zipCode: 'Zip Code',
     password: 'Password',
     confirmPassword: 'Confirm Password',
     signUp: 'Sign Up',
     login: 'Login',
     forgotPassword: 'Forgot Password?',
+    //Overviwe
+    next: 'Next',
+    previous: 'Previous',
     //Error
     loginError: 'Check your credentials',
     getAirportsError: 'Error getting airports',

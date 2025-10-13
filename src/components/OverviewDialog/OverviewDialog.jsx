@@ -9,7 +9,6 @@ import {
   Box,
   Card,
   CardContent,
-  CssBaseline,
   Grid,
   Stack,
   Step,
@@ -17,11 +16,15 @@ import {
   Stepper,
   Button,
   Divider,
-  TextField,
+  useTheme
 } from '@mui/material';
 import { Close, ChevronLeftRounded, ChevronRightRounded } from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useOverview } from '../../contexts/OverViewContext';
+
+import BillingForm from '../BillingForm/BillingForm';
+import PriceDeatils from '../PriceDetails/PriceDetails';
+
 import dayjs from 'dayjs';
 
 const Transition = forwardRef((props, ref) => {
@@ -33,51 +36,7 @@ const steps = ['Datos de usuario', 'Review your order'];
 function getStepContent(step, overview, translation) {
   switch (step) {
     case 0:
-      return (
-        <Box component="form" sx={{ mt: 1 }}>
-          <Grid container spacing={3}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                required
-                id="firstName"
-                label={translation("firstName")}
-                fullWidth
-                autoComplete="given-name"
-                variant="standard"
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                required
-                id="lastName"
-                label={translation("lastName")}
-                fullWidth
-                autoComplete="family-name"
-                variant="standard"
-              />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <TextField
-                required
-                id="email"
-                label={translation("email")}
-                fullWidth
-                autoComplete="email"
-                variant="standard"
-              />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <TextField
-                id="phone"
-                label={translation("phone")}
-                fullWidth
-                autoComplete="tel"
-                variant="standard"
-              />
-            </Grid>
-          </Grid>
-        </Box>
-      );
+      return <BillingForm/>;
     case 1:
       return (
         <>
@@ -123,10 +82,12 @@ function getStepContent(step, overview, translation) {
 }
 
 const OverviewDialog = () => {
-  const { translation } = useLanguage();
-  const { overview, openOverviewDialog, toggleOverviewDialog } = useOverview();
   const [activeStep, setActiveStep] = useState(0);
 
+  const theme = useTheme();
+  const { translation } = useLanguage();
+  const { overview, openOverviewDialog, toggleOverviewDialog } = useOverview();
+  
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -134,6 +95,7 @@ const OverviewDialog = () => {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+  console.log(overview);
 
   return (
     <Dialog
@@ -158,7 +120,6 @@ const OverviewDialog = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <CssBaseline enableColorScheme />
       <Grid
         container
         sx={{
@@ -180,31 +141,35 @@ const OverviewDialog = () => {
             backgroundColor: 'background.paper',
             borderRight: { sm: 'none', md: '1px solid' },
             borderColor: { sm: 'none', md: 'divider' },
-            alignItems: 'start',
-            pt: 16,
-            px: 10,
-            gap: 4,
+            alignItems: 'center',
+            pt: 6,
+            px: 3,
+            gap: 1,
           }}
         >
+          <Box
+            component="img"
+            src={overview.car_main_image}
+            alt={overview.car_name}
+            sx={{
+              width: { xs: '100%', md: 270 },
+              height: { xs: 180, md: 172 },
+              objectFit: 'contain',
+            }}
+          />
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               flexGrow: 1,
               width: '100%',
-              maxWidth: 500,
+              borderRadius: 3,
+              p: 2,
+              border: '1px solid #ccc',
             }}
           >
-            <Typography variant="h5">{translation("rentalSummary")}</Typography>
-            <Typography variant="body1" sx={{ mt: 2 }}>
-              {translation("selectedCar")}: {overview.car_name} ({translation("orSimilar")})
-            </Typography>
-            <Typography variant="body1">
-              {translation("days")}: {overview.days}
-            </Typography>
-            <Typography variant="h6" sx={{ mt: 4 }}>
-              Total: {overview.total_amount?.toFixed(2) || "0.00"} €
-            </Typography>
+            <Typography variant="h5">{overview.car_name} ({translation("orSimilar")})</Typography>
+            <PriceDeatils totalPrice={overview.total_amount} />
           </Box>
         </Grid>
         <Grid
@@ -215,10 +180,10 @@ const OverviewDialog = () => {
             maxWidth: '100%',
             width: '100%',
             backgroundColor: { xs: 'transparent', sm: 'background.default' },
-            alignItems: 'start',
-            pt: { xs: 0, sm: 16 },
-            px: { xs: 2, sm: 10 },
-            gap: { xs: 4, md: 8 },
+            alignItems: 'center',
+            pt: { xs: 0, sm: 12 },
+            px: { xs: 2, sm: 8 },
+            gap: { xs: 2, md: 4 },
           }}
         >
           <Box
@@ -242,7 +207,7 @@ const OverviewDialog = () => {
               <Stepper
                 id="desktop-stepper"
                 activeStep={activeStep}
-                sx={{ width: '100%', height: 40 }}
+                sx={{ width: '100%', height: 40,}}
               >
                 {steps.map((label) => (
                   <Step
@@ -264,17 +229,16 @@ const OverviewDialog = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <div>
-                <Typography variant="subtitle2" gutterBottom>
-                  {translation("selectedCar")}
-                </Typography>
-                <Typography variant="body1">
-                  {overview.car_name} ({translation("orSimilar")})
-                </Typography>
-                <Typography variant="body1">
-                  Total: {overview.total_amount?.toFixed(2) || "0.00"} €
-                </Typography>
-              </div>
+              <Typography variant="subtitle2" gutterBottom>
+                {translation("selectedCar")}
+              </Typography>
+              <Typography variant="body1">
+                {overview.car_name} ({translation("orSimilar")})
+              </Typography>
+              <Typography variant="body1">
+                Total: {overview.total_amount?.toFixed(2) || "0.00"} €
+              </Typography>
+          
               <Stack spacing={1}>
                 <Typography variant="body2">
                   {translation("days")}: {overview.days}

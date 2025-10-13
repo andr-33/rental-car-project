@@ -30,6 +30,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
     updateOverview("total_amount", totalPrice);
     updateOverview("car_id", car.id);
     updateOverview("car_name", car.name);
+    updateOverview("car_main_image", car.images[0]?.url);
   };
 
   return (

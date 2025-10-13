@@ -4,7 +4,7 @@ const theme = createTheme({
     palette: {
         primary: {
             main: '#01260E',      // Verde oscuro como color principal sólido
-            light: '#418C1F',     // Verde medio como variación clara del primario
+            light: '#B0CE88',     // Verde medio como variación clara del primario
         },
         secondary: {
             main: '#93D929',      // Verde chillón como color secundario/acento

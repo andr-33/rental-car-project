@@ -17,6 +17,7 @@ export const OverviewProvider = ({ children }) => {
     airport_city: "",
     car_id: null,
     car_name: null,
+    car_main_image: null,
     pickup_date: null,
     return_date: null,
     days: 0,
