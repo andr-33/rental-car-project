@@ -37,7 +37,9 @@ const CarList = ({ rentalDays, translation, showCars }) => {
       try {
         const carsData = await axios.get("/api/car/all-cars");
         setCarsData(carsData.data);
-      } catch (err) {
+      } catch (error) {
+        console.error(error.response.data.error.message);
+        
         setError("Error al cargar los autos 🚨");
       } finally {
         setLoading(false);

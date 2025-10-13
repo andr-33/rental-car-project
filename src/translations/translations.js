@@ -36,6 +36,8 @@ export const translations = {
     forgotPassword: '¿Olvidaste tu contraseña?',
     //Error
     loginError: 'Revisa tus credenciales',
+    getAirportsError: 'Error al obtener los aeropuertos',
+    getCarsError: 'Error al obtener los autos',
   },
   en: {
     title: 'Dominicar',
@@ -74,5 +76,7 @@ export const translations = {
     forgotPassword: 'Forgot Password?',
     //Error
     loginError: 'Check your credentials',
+    getAirportsError: 'Error getting airports',
+    getCarsError: 'Error getting cars',
   }
 };
