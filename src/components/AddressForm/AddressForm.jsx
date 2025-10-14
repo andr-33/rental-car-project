@@ -8,7 +8,7 @@ import {
 
 import { useLanguage } from "../../contexts/LanguageContext";
 
-const BillingForm = () => {
+const AddressForm = () => {
 
   const { translation } = useLanguage();
 
@@ -79,4 +79,4 @@ const BillingForm = () => {
   );
 };
 
-export default BillingForm;
+export default AddressForm;

@@ -26,6 +26,7 @@ export const translations = {
     selectedCar: 'Vehículo seleccionado',
     requestReservation: 'Solicitar Reserva',
     orSimilar: 'o similar',
+    close: 'Cerrar',
     //Formularios
     email: 'Correo electrónico',
     emailPlaceholder: 'ejemplo@email.com',
@@ -44,6 +45,10 @@ export const translations = {
     //Overviwe
     next: 'Siguiente',
     previous: 'Anterior',
+    address: 'Dirección',
+    review: 'Revisa tu reserva',
+    reservationRequested: '¡Reserva solicitada!',
+    reservationConfirmationMessage: 'En breves un miembro de nuestro equipo se pondra en contacto contigo para confirmar tu reserva.',
     //Error
     loginError: 'Revisa tus credenciales',
     getAirportsError: 'Error al obtener los aeropuertos',
@@ -76,6 +81,7 @@ export const translations = {
     selectedCar: 'Selected car',
     requestReservation: 'Request Reservation',
     orSimilar: 'or similar',
+    close: 'Close',
     //Formularios
     email: 'Email',
     emailPlaceholder: 'example@email.com',
@@ -94,6 +100,10 @@ export const translations = {
     //Overviwe
     next: 'Next',
     previous: 'Previous',
+    address: 'Address',
+    review: 'Review your reservation',
+    reservationRequested: 'Reservation requested!',
+    reservationConfirmationMessage: 'A member of our team will contact you shortly to confirm your reservation.',
     //Error
     loginError: 'Check your credentials',
     getAirportsError: 'Error getting airports',
