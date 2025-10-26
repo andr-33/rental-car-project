@@ -6,7 +6,7 @@ import { CarProvider } from "../contexts/CarContext";
 import AdminDrawer from "../components/AdminDrawer/AdminDrawer";
 import Dashboard from "../components/Dashboard/Dashboard";
 import CarManagement from "../components/CarManagement/CarManagement";
-//import RentalManagement from "../components/RentalManagement/RentalManagement";
+import RentalLog from "../components/RentalLog/RentalLog";
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -15,8 +15,7 @@ const Admin = () => {
   const sectionComponents = {
     dashboard: <Dashboard />,
     cars: <CarManagement />,
-    // rentals: <RentalManagement />,
-    // ... otras secciones
+    rentals: <RentalLog />,
   };
 
   return (
