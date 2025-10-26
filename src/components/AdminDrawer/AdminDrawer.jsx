@@ -50,18 +50,6 @@ const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
       icon: <Assignment />,
       section: 'rentals',
     },
-    {
-      id: 4,
-      name: translation('manageUsers'),
-      icon: <People />,
-      section: 'users',
-    },
-    {
-      id: 5,
-      name: translation('myProfile'),
-      icon: <Person />,
-      section: 'profile',
-    },
   ];
 
   // Item separado para Logout

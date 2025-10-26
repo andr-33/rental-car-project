@@ -1,12 +1,12 @@
-import { Box } from "@mui/material";
 import { useState } from "react";
+import { Box } from "@mui/material";
+
+import { CarProvider } from "../contexts/CarContext";
 
 import AdminDrawer from "../components/AdminDrawer/AdminDrawer";
 import Dashboard from "../components/Dashboard/Dashboard";
-// Asumiendo que tienes componentes para las otras secciones; si no, impórtalos o créalos
-// Por ejemplo:
-// import CarManagement from "./CarManagement";
-// import RentalManagement from "./RentalManagement";
+import CarManagement from "../components/CarManagement/CarManagement";
+//import RentalManagement from "../components/RentalManagement/RentalManagement";
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -14,7 +14,7 @@ const Admin = () => {
 
   const sectionComponents = {
     dashboard: <Dashboard />,
-    // cars: <CarManagement />,
+    cars: <CarManagement />,
     // rentals: <RentalManagement />,
     // ... otras secciones
   };
@@ -33,7 +33,6 @@ const Admin = () => {
           flexGrow: 1,
           p: 3,
           ml: drawerOpen ? "240px" : "55px",
-          bgcolor: "red", // Mantengo esto para debug; quítalo cuando no sea necesario
           transition: "margin-left 0.3s ease",
         }}
       >
@@ -43,4 +42,8 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default () => (
+  <CarProvider>
+    <Admin />
+  </CarProvider>
+);
