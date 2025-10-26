@@ -7,6 +7,7 @@ import theme from "./theme.js"
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import Auth from './pages/Auth';
+import Admin from './pages/Admin.jsx';
 
 
 const App = () => (
@@ -18,6 +19,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
