@@ -22,7 +22,7 @@ const Dashboard = ()=> {
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
-            title={translation('dashboard.totalRentals')}
+            title={translation('totalRentals')}
             value={stats.totalRentals}
             icon={<ReceiptIcon sx={{ fontSize: 32, color: 'primary.main' }} />}
             color="primary"
@@ -31,7 +31,7 @@ const Dashboard = ()=> {
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
-            title={translation('dashboard.monthlyRevenue')}
+            title={translation('monthlyRevenue')}
             value={`$${stats.totalRevenue.toLocaleString()}`}
             icon={<TrendingUpIcon sx={{ fontSize: 32, color: 'success.main' }} />}
             color="success"
@@ -40,7 +40,7 @@ const Dashboard = ()=> {
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
-            title={translation('dashboard.activeRentals')}
+            title={translation('activeRentals')}
             value={stats.activeRentals}
             icon={<CheckCircleIcon sx={{ fontSize: 32, color: 'warning.main' }} />}
             color="warning"
@@ -49,7 +49,7 @@ const Dashboard = ()=> {
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
-            title={translation('dashboard.availableCars')}
+            title={translation('availableCars')}
             value={`${stats.availableCars}/${stats.totalCars}`}
             icon={<CarIcon sx={{ fontSize: 32, color: 'info.main' }} />}
             color="info"

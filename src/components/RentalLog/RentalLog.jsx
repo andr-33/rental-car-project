@@ -11,25 +11,25 @@ const RentalLog = () => {
   const { rentals } = useCarContext();
 
   const columns = [
-    { field: 'id', headerName: translation('rentalLog.id'), width: 70 },
-    { field: 'carInfo', headerName: translation('rentalLog.car'), width: 250 },
-    { field: 'customerName', headerName: translation('rentalLog.customer'), width: 180 },
-    { field: 'startDate', headerName: translation('rentalLog.startDate'), width: 130 },
-    { field: 'endDate', headerName: translation('rentalLog.endDate'), width: 130 },
-    { field: 'totalDays', headerName: translation('rentalLog.days'), width: 80 },
+    { field: 'id', headerName: translation('id'), width: 70 },
+    { field: 'carInfo', headerName: translation('car'), width: 250 },
+    { field: 'customerName', headerName: translation('customer'), width: 180 },
+    { field: 'startDate', headerName: translation('pickup'), width: 130 },
+    { field: 'endDate', headerName: translation('return'), width: 130 },
+    { field: 'totalDays', headerName: translation('days'), width: 80 },
     {
       field: 'totalAmount',
-      headerName: translation('rentalLog.amount'),
+      headerName: translation('totalPrice'),
       width: 120,
       renderCell: (params) => `$${params.value}`
     },
     {
       field: 'status',
-      headerName: translation('rentalLog.status'),
+      headerName: translation('status'),
       width: 130,
       renderCell: (params) => (
         <Chip
-          label={params.value === 'Active' ? translation('rentalLog.active') : translation('rentalLog.completed')}
+          label={params.value === 'Active' ? translation('active') : translation('completed')}
           color={params.value === 'Active' ? 'success' : 'default'}
           size="small"
         />
@@ -40,7 +40,7 @@ const RentalLog = () => {
   return (
     <Box>
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
-        {translation('rentalLog.title')}
+        {translation('rentalLogTitle')}
       </Typography>
       
       <Box sx={{ height: 600, width: '100%', backgroundColor: 'white', borderRadius: 2 }}>

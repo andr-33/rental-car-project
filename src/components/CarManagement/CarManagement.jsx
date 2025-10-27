@@ -23,13 +23,14 @@ import CarDialog from '../../components/CarDialog/CarDialog';
 import DeleteConfirmDialog from '../../components/DeleteConfirmDialog/DeleteConfirmDialog';
 
 const CarManagement = () => {
-  const { translation } = useLanguage();
-  const { cars, addCar, updateCar, deleteCar, toggleAvailability } = useCarContext();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [carToDelete, setCarToDelete] = useState(null);
   const [filterAvailability, setFilterAvailability] = useState('All');
+
+  const { translation } = useLanguage();
+  const { cars, addCar, updateCar, deleteCar, toggleAvailability } = useCarContext();
 
   const handleAddCar = () => {
     setSelectedCar(null);
@@ -75,23 +76,23 @@ const CarManagement = () => {
   });
 
   const columns = [
-    { field: 'id', headerName: translation('carManagement.id'), width: 70 },
-    { field: 'model', headerName: translation('carManagement.model'), width: 200 },
-    { field: 'year', headerName: translation('carManagement.year'), width: 90 },
-    { field: 'licensePlate', headerName: translation('carManagement.licensePlate'), width: 130 },
+    { field: 'id', headerName: translation('id'), width: 70 },
+    { field: 'model', headerName: translation('carModel'), width: 200 },
+    { field: 'year', headerName: translation('carYear'), width: 90 },
+    { field: 'licensePlate', headerName: translation('licensePlate'), width: 130 },
     {
       field: 'dailyRate',
-      headerName: translation('carManagement.dailyRate'),
+      headerName: translation('dailyRate'),
       width: 130,
       renderCell: (params) => `$${params.value}`
     },
     {
       field: 'available',
-      headerName: translation('carManagement.status'),
+      headerName: translation('status'),
       width: 150,
       renderCell: (params) => (
         <Chip
-          label={params.value ? translation('carManagement.available') : translation('carManagement.notAvailable')}
+          label={params.value ? translation('available') : translation('notAvailable')}
           color={params.value ? 'success' : 'error'}
           size="small"
         />
@@ -99,7 +100,7 @@ const CarManagement = () => {
     },
     {
       field: 'actions',
-      headerName: translation('carManagement.actions'),
+      headerName: translation('actions'),
       width: 180,
       sortable: false,
       renderCell: (params) => (
@@ -108,7 +109,7 @@ const CarManagement = () => {
             size="small"
             color="primary"
             onClick={() => handleToggleAvailability(params.row.id)}
-            title={translation('carManagement.toggleAvailability')}
+            title={translation('toggleAvailability')}
           >
             {params.row.available ? <ToggleOnIcon /> : <ToggleOffIcon />}
           </IconButton>
@@ -116,7 +117,7 @@ const CarManagement = () => {
             size="small"
             color="info"
             onClick={() => handleEditCar(params.row)}
-            title={translation('carManagement.edit')}
+            title={translation('edit')}
           >
             <EditIcon />
           </IconButton>
@@ -124,7 +125,7 @@ const CarManagement = () => {
             size="small"
             color="error"
             onClick={() => handleDeleteClick(params.row)}
-            title={translation('carManagement.delete')}
+            title={translation('delete')}
           >
             <DeleteIcon />
           </IconButton>
@@ -137,7 +138,7 @@ const CarManagement = () => {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 700 }}>
-          {translation('carManagement.title')}
+          {translation('carManagementTitle')}
         </Typography>
         <Button
           variant="contained"
@@ -145,21 +146,21 @@ const CarManagement = () => {
           onClick={handleAddCar}
           size="large"
         >
-          {translation('carManagement.addNewCar')}
+          {translation('addCar')}
         </Button>
       </Box>
 
       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
         <TextField
           select
-          label={translation('carManagement.filterAvailability')}
+          label={translation('filterAvailability')}
           value={filterAvailability}
           onChange={(e) => setFilterAvailability(e.target.value)}
-          sx={{ minWidth: 200, backgroundColor: 'white' }}
+          sx={{ minWidth: 200 }}
         >
-          <MenuItem value="All">{translation('carManagement.all')}</MenuItem>
-          <MenuItem value="Available">{translation('carManagement.available')}</MenuItem>
-          <MenuItem value="Not Available">{translation('carManagement.notAvailable')}</MenuItem>
+          <MenuItem value="All">{translation('all')}</MenuItem>
+          <MenuItem value="Available">{translation('available')}</MenuItem>
+          <MenuItem value="Not Available">{translation('notAvailable')}</MenuItem>
         </TextField>
       </Stack>
 

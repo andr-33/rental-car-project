@@ -62,25 +62,24 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>
-        {car ? translation('carDialog.editTitle') : translation('carDialog.addTitle')}
+        {car ? translation('editCar') : translation('addCar')}
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label={translation('carDialog.model')}
+              label={translation('carModel')}
               name="model"
               value={formData.model}
               onChange={handleChange}
-              placeholder={translation('carDialog.modelPlaceholder')}
               required
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label={translation('carDialog.year')}
+              label={translation('carYear')}
               name="year"
               type="number"
               value={formData.year}
@@ -91,7 +90,7 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label={translation('carDialog.licensePlate')}
+              label={translation('licensePlate')}
               name="licensePlate"
               value={formData.licensePlate}
               onChange={handleChange}
@@ -101,7 +100,7 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label={translation('carDialog.dailyRate')}
+              label={translation('pricePerDay')}
               name="dailyRate"
               type="number"
               value={formData.dailyRate}
@@ -119,7 +118,7 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
                   color="primary"
                 />
               }
-              label={translation('carDialog.available')}
+              label={translation('available')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -132,10 +131,10 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>
-          {translation('carDialog.cancel')}
+          {translation('cancel')}
         </Button>
         <Button onClick={handleSubmit} variant="contained" color="primary">
-          {car ? translation('carDialog.update') : translation('carDialog.add')}
+          {car ? translation('update') : translation('add')}
         </Button>
       </DialogActions>
     </Dialog>

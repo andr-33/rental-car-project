@@ -16,37 +16,34 @@ import {
   Dashboard,
   DirectionsCar,
   Assignment,
-  People,
-  Person,
   Logout,
-  ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
+  ChevronRight,
+  Close
 } from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const drawerWidth = 240; // Ancho estándar para drawer expandido
+const drawerWidth = 240;
 
 const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
   const theme = useTheme();
   const { translation } = useLanguage();
 
-  // Definimos los items del menú adaptados al contexto de renta de coches para Admin
   const menuItems = [
     {
       id: 1,
-      name: translation('dashboard'),
+      name: translation('dashboardTitle'),
       icon: <Dashboard />,
       section: 'dashboard',
     },
     {
       id: 2,
-      name: translation('manageVehicles'),
+      name: translation('carManagementTitle'),
       icon: <DirectionsCar />,
       section: 'cars',
     },
     {
       id: 3,
-      name: translation('manageRentals'),
+      name: translation('rentalLogTitle'),
       icon: <Assignment />,
       section: 'rentals',
     },
@@ -81,10 +78,9 @@ const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
     >
       <Toolbar /> {/* Espacio para el AppBar superior */}
 
-      {/* Botón para toggle del drawer */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <IconButton onClick={onToggle}>
-          {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          {open ? <Close /> : <ChevronRight />}
         </IconButton>
       </Box>
 

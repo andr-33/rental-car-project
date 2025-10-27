@@ -50,7 +50,7 @@ const ImageUpload = ({ value, onChange }) => {
   return (
     <Box>
       <Typography variant="body2" gutterBottom>
-        {translation('carDialog.uploadImage')}
+        {translation('uploadImage')}
       </Typography>
       <Paper
         elevation={0}
@@ -95,7 +95,7 @@ const ImageUpload = ({ value, onChange }) => {
           <Box>
             <CloudUploadIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 1 }} />
             <Typography variant="body2" color="text.secondary">
-              {translation('carDialog.dragDropText')}
+              {translation('dragDropText')}
             </Typography>
           </Box>
         )}
