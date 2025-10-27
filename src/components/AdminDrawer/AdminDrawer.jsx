@@ -1,5 +1,3 @@
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
 import {
   Drawer,
   List,
@@ -8,9 +6,8 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
-  Divider,
-  Toolbar,
   Box,
+  useTheme
 } from '@mui/material';
 import {
   Dashboard,
@@ -73,12 +70,16 @@ const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
           }),
+          overflow: 'hidden'
         },
       }}
     >
-      <Toolbar /> {/* Espacio para el AppBar superior */}
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: open ? 'flex-end' : 'center',
+        mt: 1
+      }}>
         <IconButton onClick={onToggle}>
           {open ? <Close /> : <ChevronRight />}
         </IconButton>
@@ -90,7 +91,6 @@ const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
             key={item.section}
             disablePadding
             sx={{
-              // Estilo para resaltar la sección activa
               backgroundColor:
                 activeSection === item.section
                   ? theme.palette.action.selected
@@ -117,7 +117,10 @@ const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
               {open && (
                 <ListItemText
                   primary={item.name}
-                  sx={{ opacity: open ? 1 : 0 }}
+                  sx={{
+                    opacity: open ? 1 : 0,
+                    whiteSpace: 'nowrap'
+                  }}
                 />
               )}
             </ListItemButton>
@@ -125,10 +128,12 @@ const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
         ))}
       </List>
 
-      <Divider />
-
-      {/* Sección inferior para Logout */}
-      <List>
+      <List sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        justifyContent: 'flex-end',
+      }}>
         <ListItem disablePadding>
           <ListItemButton
             onClick={logoutItem.onClick}

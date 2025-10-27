@@ -1,11 +1,23 @@
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { 
+  Card, 
+  CardContent, 
+  Typography, 
+  Box,
+  useTheme
+} from '@mui/material';
 
-export default function StatCard({ title, value, icon, color = 'primary' }) {
+const StatCard = ({ title, value, icon, color }) => {
+  const theme = useTheme();
+
   return (
-    <Card
+    <Box
       sx={{
         height: '100%',
         transition: 'transform 0.2s, box-shadow 0.2s',
+        cursor: 'pointer',
+        borderRadius: 3,
+        bgcolor: theme.palette.background.paper,
+        border: '1px solid #ccc',
         '&:hover': {
           transform: 'translateY(-4px)',
           boxShadow: 6
@@ -15,10 +27,21 @@ export default function StatCard({ title, value, icon, color = 'primary' }) {
       <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <Box>
-            <Typography color="text.secondary" gutterBottom variant="body2">
+            <Typography 
+              color="text.secondary" 
+              gutterBottom 
+              variant="body1"
+            >
               {title}
             </Typography>
-            <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: `${color}.main` }}>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                ml: 1, 
+                fontWeight: 700, 
+                color: `${color}.main` 
+              }}
+            >
               {value}
             </Typography>
           </Box>
@@ -26,7 +49,7 @@ export default function StatCard({ title, value, icon, color = 'primary' }) {
             sx={{
               backgroundColor: `${color}.light`,
               borderRadius: 2,
-              p: 1.5,
+              p: 1,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -36,6 +59,8 @@ export default function StatCard({ title, value, icon, color = 'primary' }) {
           </Box>
         </Box>
       </CardContent>
-    </Card>
+    </Box>
   );
-}
+};
+
+export default StatCard;

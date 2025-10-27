@@ -21,7 +21,7 @@ const theme = createTheme({
         },
         warning: {
             main: '#FFA726',      // Naranja clásico para advertencias
-            light: '#FFD95B',
+            light: '#FFCE85',
             dark: '#C77800',
         },
         error: {
@@ -31,9 +31,14 @@ const theme = createTheme({
         },
         success: {
             main: '#21D904',      // Verde chillón para estados de éxito (coherente con secondary)
-            light: '#93D929',     // Verde limón suave como variación
+            light: '#B9E774',     // Verde limón suave como variación
             dark: '#418C1F',      // Verde medio como versión más profunda
         },
+        info:{
+            main: '#03A9F4',
+            light: '#86D8FE',
+            dark: '#0288d1',
+        }
     },
     typography: {
         button: {
