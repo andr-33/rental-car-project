@@ -92,7 +92,7 @@ export const translations = {
     active: 'Activo',
     completed: 'Completado',
     uploadImage: 'Subir Imagen',
-    dragDropText: 'Arrastra una imagen o da click para subir una'
+    clickUpload: 'Click para subir una imagen'
   },
   en: {
     title: 'Dominicar',
@@ -184,6 +184,6 @@ export const translations = {
     active: 'Active',
     completed: 'Completed',
     uploadImage: 'Upload Image',
-    dragDropText: 'Drag and drop an image or click to upload'
+    clickUpload: 'Click to upload an image'
   }
 };

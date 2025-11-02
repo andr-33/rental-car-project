@@ -9,7 +9,7 @@ import CarManagement from "../components/CarManagement/CarManagement";
 import RentalLog from "../components/RentalLog/RentalLog";
 
 const Admin = () => {
-  const [activeSection, setActiveSection] = useState("dashboard");
+  const [activeSection, setActiveSection] = useState("cars");
   const [drawerOpen, setDrawerOpen] = useState(true);
 
   const sectionComponents = {

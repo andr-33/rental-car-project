@@ -7,9 +7,15 @@ import {
   Button,
   TextField,
   Grid,
-  FormControlLabel,
-  Switch
+  IconButton,
+  Stack,
+  FormControl,
+  FormLabel,
 } from '@mui/material';
+import {
+  ToggleOn as ToggleOnIcon,
+  ToggleOff as ToggleOffIcon
+} from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext';
 import ImageUpload from '../ImageUpload/ImageUpload';
 
@@ -17,12 +23,14 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
   const { translation } = useLanguage();
   const [formData, setFormData] = useState({
     model: '',
-    year: new Date().getFullYear(),
+    year: '',
     licensePlate: '',
     dailyRate: '',
     available: true,
     image: ''
   });
+
+  console.log(formData);
 
   useEffect(() => {
     if (car) {
@@ -30,7 +38,7 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
     } else {
       setFormData({
         model: '',
-        year: new Date().getFullYear(),
+        year: '',
         licensePlate: '',
         dailyRate: '',
         available: true,
@@ -40,19 +48,27 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
   }, [car, open]);
 
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'available' ? checked : value
+      [name]: value
     }));
   };
 
-  const handleImageChange = (imageUrl) => {
+  const handleImageChange = (imageData) => {
     setFormData(prev => ({
       ...prev,
-      image: imageUrl
+      image: imageData
     }));
   };
+
+  const handleToggleAvailability = () => {
+    setFormData(prev => ({
+      ...prev,
+      available: !prev.available
+    }));
+  };
+
 
   const handleSubmit = () => {
     onSave(formData);
@@ -61,67 +77,108 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {car ? translation('editCar') : translation('addCar')}
-      </DialogTitle>
-      <DialogContent>
+      <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <DialogTitle>{car ? translation('editCar') : translation('addCar')}</DialogTitle>
+        <IconButton
+          size="small"
+          onClick={handleToggleAvailability}
+          sx={{
+            pr: 3
+          }}
+        >
+          {formData.available ?
+            <ToggleOnIcon fontSize='large' color='success' /> :
+            <ToggleOffIcon fontSize='large' />
+          }
+        </IconButton>
+      </Stack>
+      <DialogContent sx={{ pt: 0 }}>
         <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label={translation('carModel')}
-              name="model"
-              value={formData.model}
-              onChange={handleChange}
-              required
-            />
+          <Grid size={7}>
+            <Grid container spacing={1}>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormControl fullWidth>
+                  <FormLabel
+                    required
+                    sx={{
+                      fontSize: '16px'
+                    }}
+                  >
+                    {translation('carModel')}
+                  </FormLabel>
+                  <TextField
+                    fullWidth
+                    name="model"
+                    value={formData.model}
+                    onChange={handleChange}
+                    required
+                  />
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormControl fullWidth>
+                  <FormLabel
+                    required
+                    sx={{
+                      fontSize: '16px'
+                    }}
+                  >
+                    {translation('carYear')}
+                  </FormLabel>
+                  <TextField
+                    fullWidth
+                    name="year"
+                    type="number"
+                    value={formData.year}
+                    placeholder={new Date().getFullYear()}
+                    onChange={handleChange}
+                    required
+                  />
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormControl fullWidth>
+                  <FormLabel
+                    required
+                    sx={{
+                      fontSize: '16px'
+                    }}
+                  >
+                    {translation('licensePlate')}
+                  </FormLabel>
+                  <TextField
+                    fullWidth
+                    name="licensePlate"
+                    value={formData.licensePlate}
+                    onChange={handleChange}
+                    required
+                  />
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormControl fullWidth>
+                  <FormLabel
+                    required
+                    sx={{
+                      fontSize: '16px'
+                    }}
+                  >
+                    {translation('dailyRate')}
+                  </FormLabel>
+                  <TextField
+                    fullWidth
+                    name="dailyRate"
+                    type="number"
+                    value={formData.dailyRate}
+                    placeholder='$0.00'
+                    onChange={handleChange}
+                    required
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label={translation('carYear')}
-              name="year"
-              type="number"
-              value={formData.year}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label={translation('licensePlate')}
-              name="licensePlate"
-              value={formData.licensePlate}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label={translation('pricePerDay')}
-              name="dailyRate"
-              type="number"
-              value={formData.dailyRate}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={formData.available}
-                  onChange={handleChange}
-                  name="available"
-                  color="primary"
-                />
-              }
-              label={translation('available')}
-            />
-          </Grid>
-          <Grid item xs={12}>
+          <Grid size={5}>
             <ImageUpload
               value={formData.image}
               onChange={handleImageChange}
@@ -129,7 +186,7 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ px: 3, pb: 3 }}>
         <Button onClick={onClose}>
           {translation('cancel')}
         </Button>

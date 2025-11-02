@@ -7,7 +7,8 @@ import {
   IconButton,
   TextField,
   MenuItem,
-  Stack
+  Stack,
+  useTheme
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -29,6 +30,7 @@ const CarManagement = () => {
   const [carToDelete, setCarToDelete] = useState(null);
   const [filterAvailability, setFilterAvailability] = useState('All');
 
+  const theme = useTheme();
   const { translation } = useLanguage();
   const { cars, addCar, updateCar, deleteCar, toggleAvailability } = useCarContext();
 
@@ -68,32 +70,64 @@ const CarManagement = () => {
   };
 
   const filteredCars = cars.filter(car => {
-    const availabilityMatch = 
-      filterAvailability === 'All' || 
+    const availabilityMatch =
+      filterAvailability === 'All' ||
       (filterAvailability === 'Available' && car.available) ||
       (filterAvailability === 'Not Available' && !car.available);
     return availabilityMatch;
   });
 
   const columns = [
-    { field: 'id', headerName: translation('id'), width: 70 },
-    { field: 'model', headerName: translation('carModel'), width: 200 },
-    { field: 'year', headerName: translation('carYear'), width: 90 },
-    { field: 'licensePlate', headerName: translation('licensePlate'), width: 130 },
+    { 
+      field: 'id',
+      headerName: translation('id'), 
+      headerAlign: 'center',
+      align: 'center', 
+      flex: 0.2 
+    },
+    { 
+      field: 'model', 
+      headerName: translation('carModel'), 
+      headerAlign: 'center',
+      align: 'center', 
+      flex: 1 
+    },
+    { 
+      field: 'year', 
+      headerName: translation('carYear'), 
+      headerAlign: 'center',
+      align: 'center', 
+      flex: 0.45
+     },
+    { 
+      field: 'licensePlate', 
+      headerName: translation('licensePlate'), 
+      headerAlign: 'center',
+      align: 'center', 
+      flex: 0.65, 
+    },
     {
       field: 'dailyRate',
       headerName: translation('dailyRate'),
+      headerAlign: 'center',
+      align: 'center',
       width: 130,
       renderCell: (params) => `$${params.value}`
     },
     {
       field: 'available',
       headerName: translation('status'),
-      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+      flex: 0.75,
       renderCell: (params) => (
         <Chip
           label={params.value ? translation('available') : translation('notAvailable')}
-          color={params.value ? 'success' : 'error'}
+          sx={{
+            bgcolor: params.value ? theme.palette.success.light : theme.palette.error.light,
+            color: params.value ? theme.palette.success.dark : theme.palette.error.dark,
+            fontWeight: 'bold',
+          }}
           size="small"
         />
       )
@@ -101,56 +135,56 @@ const CarManagement = () => {
     {
       field: 'actions',
       headerName: translation('actions'),
-      width: 180,
+      headerAlign: 'center',
+      align: 'center',
+      flex: 0.8,
       sortable: false,
       renderCell: (params) => (
-        <Box>
+        <>
           <IconButton
             size="small"
-            color="primary"
             onClick={() => handleToggleAvailability(params.row.id)}
             title={translation('toggleAvailability')}
           >
-            {params.row.available ? <ToggleOnIcon /> : <ToggleOffIcon />}
+            {params.row.available ?
+              <ToggleOnIcon color='success' /> :
+              <ToggleOffIcon />
+            }
           </IconButton>
           <IconButton
             size="small"
-            color="info"
             onClick={() => handleEditCar(params.row)}
             title={translation('edit')}
           >
-            <EditIcon />
+            <EditIcon sx={{
+              ":hover": {
+                color: theme.palette.primary.main
+              }
+            }} />
           </IconButton>
           <IconButton
             size="small"
-            color="error"
             onClick={() => handleDeleteClick(params.row)}
             title={translation('delete')}
           >
-            <DeleteIcon />
+            <DeleteIcon sx={{
+              ":hover": {
+                color: theme.palette.error.main
+              }
+            }} />
           </IconButton>
-        </Box>
+        </>
       )
     }
   ];
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" sx={{ fontWeight: 700 }}>
-          {translation('carManagementTitle')}
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleAddCar}
-          size="large"
-        >
-          {translation('addCar')}
-        </Button>
-      </Box>
+    <Box sx={{ width: '100%' }}>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+        {translation('carManagementTitle')}
+      </Typography>
 
-      <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+      <Stack direction="row" justifyContent={'space-between'} sx={{ mb: 3 }}>
         <TextField
           select
           label={translation('filterAvailability')}
@@ -162,9 +196,22 @@ const CarManagement = () => {
           <MenuItem value="Available">{translation('available')}</MenuItem>
           <MenuItem value="Not Available">{translation('notAvailable')}</MenuItem>
         </TextField>
+
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={handleAddCar}
+          size="large"
+        >
+          {translation('addCar')}
+        </Button>
       </Stack>
 
-      <Box sx={{ height: 600, width: '100%', backgroundColor: 'white', borderRadius: 2 }}>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: '70vh',
+      }}>
         <DataGrid
           rows={filteredCars}
           columns={columns}
@@ -181,7 +228,7 @@ const CarManagement = () => {
               outline: 'none',
             },
             '& .MuiDataGrid-row:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)',
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',
             }
           }}
         />
