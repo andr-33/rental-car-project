@@ -6,7 +6,7 @@ export const mockCars = [
     model: 'Toyota Camry',
     year: 2023,
     licensePlate: 'ABC-1234',
-    dailyRate: 45,
+    dailyPrice: 45,
     available: true,
     image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400'
   },
@@ -15,7 +15,7 @@ export const mockCars = [
     model: 'Honda CR-V',
     year: 2023,
     licensePlate: 'XYZ-5678',
-    dailyRate: 55,
+    dailyPrice: 55,
     available: true,
     image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400'
   },
@@ -24,7 +24,7 @@ export const mockCars = [
     model: 'Ford Mustang',
     year: 2024,
     licensePlate: 'DEF-9012',
-    dailyRate: 85,
+    dailyPrice: 85,
     available: false,
     image: 'https://images.unsplash.com/photo-1584345604476-8ec5f5d3e0e0?w=400'
   },
@@ -33,7 +33,7 @@ export const mockCars = [
     model: 'Tesla Model 3',
     year: 2024,
     licensePlate: 'GHI-3456',
-    dailyRate: 95,
+    dailyPrice: 95,
     available: true,
     image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400'
   },
@@ -42,7 +42,7 @@ export const mockCars = [
     model: 'BMW X5',
     year: 2023,
     licensePlate: 'JKL-7890',
-    dailyRate: 75,
+    dailyPrice: 75,
     available: true,
     image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400'
   },
@@ -51,7 +51,7 @@ export const mockCars = [
     model: 'Mercedes C-Class',
     year: 2023,
     licensePlate: 'MNO-2345',
-    dailyRate: 80,
+    dailyPrice: 80,
     available: false,
     image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400'
   }

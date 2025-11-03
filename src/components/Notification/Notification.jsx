@@ -26,7 +26,6 @@ const Notification = ({ notification, closeNotification }) => {
     >
       <Alert
         severity={notification.type}
-        variant="outlined"
         sx={{ width: "100%"}}
       >
         {translation(notification.code)}

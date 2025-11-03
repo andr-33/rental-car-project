@@ -107,8 +107,8 @@ const CarManagement = () => {
       flex: 0.65, 
     },
     {
-      field: 'dailyRate',
-      headerName: translation('dailyRate'),
+      field: 'dailyPrice',
+      headerName: translation('dailyPrice'),
       headerAlign: 'center',
       align: 'center',
       width: 130,

@@ -2,15 +2,18 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 
 import { CarProvider } from "../contexts/CarContext";
+import { NotificationProvider, useNotification } from "../contexts/NotificationContext";
 
 import AdminDrawer from "../components/AdminDrawer/AdminDrawer";
 import Dashboard from "../components/Dashboard/Dashboard";
 import CarManagement from "../components/CarManagement/CarManagement";
 import RentalLog from "../components/RentalLog/RentalLog";
+import Notification from "../components/Notification/Notification";
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState("cars");
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const { notification, closeNotification } = useNotification();
 
   const sectionComponents = {
     dashboard: <Dashboard />,
@@ -37,12 +40,18 @@ const Admin = () => {
       >
         {sectionComponents[activeSection] || <Dashboard />}
       </Box>
+      <Notification
+        notification={notification}
+        closeNotification={closeNotification}
+      />
     </>
   );
 };
 
 export default () => (
-  <CarProvider>
-    <Admin />
-  </CarProvider>
+  <NotificationProvider>
+    <CarProvider>
+      <Admin />
+    </CarProvider>
+  </NotificationProvider>
 );

@@ -43,6 +43,8 @@ const ImageUpload = ({ value, onChange }) => {
         borderColor: 'grey.300',
         borderStyle: preview ? 'solid' : 'dashed',
         borderRadius: 2,
+        /*width: 300,
+        maxWidth: 300,*/
         height: 175,
         maxHeight: 175,
         textAlign: 'center',
@@ -52,7 +54,7 @@ const ImageUpload = ({ value, onChange }) => {
         transition: 'all 0.2s',
         '&:hover': {
           borderColor: preview ? 'grey.300' : 'primary.main',
-          backgroundColor: 'action.hover'
+          backgroundColor: preview ? 'background.paper' : 'action.hover'
         }
       }}
       onClick={handleClick}
@@ -80,7 +82,7 @@ const ImageUpload = ({ value, onChange }) => {
           src={preview}
           alt="Preview"
           sx={{
-            objectFit: 'cover',
+            objectFit: 'contain',
             width: '100%',
             height: '100%',
           }}

@@ -61,10 +61,13 @@ export const translations = {
     review: 'Revisa tu reserva',
     reservationRequested: '¡Reserva solicitada!',
     reservationConfirmationMessage: 'En breves un miembro de nuestro equipo se pondra en contacto contigo para confirmar tu reserva.',
+    //Success
+    createCarSuccess: 'Coche creado correctamente',
     //Error
     loginError: 'Revisa tus credenciales',
     getAirportsError: 'Error al obtener los aeropuertos',
     getCarsError: 'Error al obtener los autos',
+    createCarError: 'Error al crear el coche',
     //Dashboard
     dashboardTitle: 'Panel de Control',
     totalRentals: 'Total de Rentas',
@@ -81,10 +84,10 @@ export const translations = {
     carModel: 'Modelo',
     carYear: 'Año',
     licensePlate: 'Placa',
-    dailyRate: 'Tarifa Diaria',
-    //Car Dialog
-    editCar: 'Editar Vehículo',
-    
+    dailyPrice: 'Tarifa Diaria',
+    engine: 'Motor',
+    drive: 'Tracción',
+    seats: 'Asientos',
     //Rental Log
     rentalLogTitle: 'Alquileres',
     customer: 'Cliente',
@@ -156,10 +159,13 @@ export const translations = {
     review: 'Review your reservation',
     reservationRequested: 'Reservation requested!',
     reservationConfirmationMessage: 'A member of our team will contact you shortly to confirm your reservation.',
+    //Success
+    createCarSuccess: 'Car created successfully',
     //Error
     loginError: 'Check your credentials',
     getAirportsError: 'Error getting airports',
     getCarsError: 'Error getting cars',
+    createCarError: 'Error creating car',
     //Dashboard
     dashboardTitle: 'Dashboard',
     totalRentals: 'Total Rentals',
@@ -176,7 +182,10 @@ export const translations = {
     carModel: 'Model',
     carYear: 'Year',
     licensePlate: 'License Plate',
-    dailyRate: 'Daily Rate',
+    dailyPrice: 'Daily Price',
+    engine: 'Engine',
+    drive: 'Drive',
+    seats: 'Seats',
     //Rental Log
     rentalLogTitle: 'Rentals',
     customer: 'Customer',
