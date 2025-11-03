@@ -29,7 +29,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
   const setOverviewInformation = () => {
     updateOverview("total_amount", totalPrice);
     updateOverview("car_id", car.id);
-    updateOverview("car_name", car.name);
+    updateOverview("car_name", car.model);
     updateOverview("car_main_image", car.images[0]?.url);
   };
 
@@ -53,7 +53,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
         <Box
           component="img"
           src={car.images[0]?.url}
-          alt={car.name}
+          alt={car.model}
           onClick={handleOpen}
           sx={{
             width: { xs: '100%', md: 220 },
@@ -66,7 +66,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
             transition: 'transform 0.2s',
             '&:hover': { transform: 'scale(1.05)' },
           }}
-          aria-label={`View enlarged image of ${car.name}`}
+          aria-label={`View enlarged image of ${car.model}`}
         />
 
         {/* Divider solo en desktop */}
@@ -85,7 +85,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
           }}
         >
           <Typography variant="h6" fontWeight="bold">
-            {car.name}
+            {car.model}
           </Typography>
           <Grid container spacing={1}>
             <Grid size={6}>
@@ -95,7 +95,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
                 <Typography variant="body2">{car.seats}</Typography>
                 <AcUnit fontSize="small" color="action" />
                 <Typography variant="body2">
-                  {car.has_ac ? translation('yes') : translation('no')}
+                  {translation('yes')}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap={0.5}>
@@ -174,7 +174,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
           },
         }}
         aria-labelledby="enlarged-image-modal"
-        aria-describedby={`Enlarged image of ${car.name}`}
+        aria-describedby={`Enlarged image of ${car.model}`}
       >
         <Box
           sx={{
@@ -192,7 +192,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
           <Box
             component="img"
             src={car.images[0]?.url}
-            alt={`Enlarged view of ${car.name}`}
+            alt={`Enlarged view of ${car.model}`}
             sx={{
               width: '100%',
               height: { xs: '25vh', sm: '50vh', md: '60vh' },
