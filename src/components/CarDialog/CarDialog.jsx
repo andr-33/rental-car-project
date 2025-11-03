@@ -11,6 +11,8 @@ import {
   Stack,
   FormControl,
   FormLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 
 import {
@@ -22,38 +24,32 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useNotification } from '../../contexts/NotificationContext';
 
 import ImageUpload from '../ImageUpload/ImageUpload';
+import SelectField from '../SelectField/SelectField';
 import axios from 'axios';
 
+const INITIAL_VALUES = {
+  model: '',
+  year: '',
+  license_plate: '',
+  daily_price: '',
+  available: true,
+  transmission: 'manual',
+  engine: 'gasoline',
+  seats: 0,
+  drive: 'FWD',
+  image: ''
+}
 
-const CarDialog = ({ open, onClose, onSave, car = null }) => {
-  const [formData, setFormData] = useState({
-    model: '',
-    year: '',
-    license_plate: '',
-    daily_price: '',
-    available: true,
-    transmission: '',
-    engine: '',
-    seats: 0,
-    drive: '',
-    image: ''
-  });
+const CarDialog = ({ open, onClose, car = null }) => {
+  const [formData, setFormData] = useState(INITIAL_VALUES);
 
+  console.log("Motoe: ", formData.engine);
   const { translation } = useLanguage();
   const { updateNotification, openNotification } = useNotification();
 
   useEffect(() => {
     if (car) {
       setFormData(car);
-    } else {
-      setFormData({
-        model: '',
-        year: '',
-        license_plate: '',
-        daily_price: '',
-        available: true,
-        image: ''
-      });
     }
   }, [car, open]);
 
@@ -84,14 +80,14 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
     try {
       const response = await axios.post('/api/car/create', formData);
       updateNotification('createCarSuccess', 'success');
-      console.log(response.data);
     } catch (error) {
       console.error(error.response.data.error.message);
       updateNotification(error.response.data.error.code, 'error');
+    } finally {
+      onClose();
+      openNotification();
+      setFormData(INITIAL_VALUES);
     }
-
-    onClose();
-    openNotification();
   };
 
   return (
@@ -113,9 +109,9 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
         <Grid container spacing={2}>
           <Grid size={12}>
             <ImageUpload
-                value={formData.image}
-                onChange={handleImageChange}
-              />
+              value={formData.image}
+              onChange={handleImageChange}
+            />
           </Grid>
           <Grid size={12}>
             <Grid container spacing={1}>
@@ -195,49 +191,46 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
                     value={formData.daily_price}
                     placeholder='$0.00'
                     onChange={handleChange}
-                    required
                   />
                 </FormControl>
               </Grid>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('transmission')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="transmission"
-                    type="text"
-                    value={formData.transmission}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
+                <SelectField
+                  labelKey='transmission'
+                  name='transmission'
+                  value={formData.transmission}
+                  onChange={handleChange}
+                  required
+                >
+                  <MenuItem value='manual'>
+                    {translation('manual')}
+                  </MenuItem>
+                  <MenuItem value='automatic'>
+                    {translation('automatic')}
+                  </MenuItem>
+                </SelectField>
               </Grid>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('engine')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="engine"
-                    type="text"
-                    value={formData.engine}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
+                <SelectField
+                  labelKey='engine'
+                  name='engine'
+                  value={formData.engine}
+                  onChange={handleChange}
+                  required
+                >
+                  <MenuItem value='gasoline'>
+                    {translation('gasoline')}
+                  </MenuItem>
+                  <MenuItem value='diesel'>
+                    {translation('diesel')}
+                  </MenuItem>
+                  <MenuItem value='electric'>
+                    {translation('electric')}
+                  </MenuItem>
+                  <MenuItem value='hybrid'>
+                    {translation('hybrid')}
+                  </MenuItem>
+                </SelectField>
               </Grid>
               <Grid size={6}>
                 <FormControl fullWidth>
@@ -260,24 +253,26 @@ const CarDialog = ({ open, onClose, onSave, car = null }) => {
                 </FormControl>
               </Grid>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('drive')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="drive"
-                    type="text"
-                    value={formData.drive}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
+                <SelectField
+                  labelKey={'drive'}
+                  name={'drive'}
+                  value={formData.drive}
+                  onChange={handleChange}
+                  required
+                >
+                  <MenuItem value='FWD'>
+                    {translation('frontWheelDrive')}
+                  </MenuItem>
+                  <MenuItem value='RWD'>
+                    {translation('rearWheelDrive')}
+                  </MenuItem>
+                  <MenuItem value='AWD'>
+                    {translation('allWheelDrive')}
+                  </MenuItem>
+                  <MenuItem value='4WD'>
+                    {translation('fourWheelDrive')}
+                  </MenuItem>
+                </SelectField>
               </Grid>
             </Grid>
           </Grid>
