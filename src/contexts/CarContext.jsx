@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { mockCars, mockRentals } from '../data/mockData';
+import { mockRentals } from '../data/mockData';
 
 const CarContext = createContext();
 
@@ -12,7 +12,7 @@ export const useCarContext = () => {
 };
 
 export const CarProvider = ({ children }) => {
-  const [cars, setCars] = useState(mockCars);
+  const [cars, setCars] = useState([]);
   const [rentals] = useState(mockRentals);
 
   const addCar = (newCar) => {
@@ -23,7 +23,7 @@ export const CarProvider = ({ children }) => {
     setCars([...cars, car]);
   };
 
-  const updateCar = (id, updatedCar) => {
+  const updateCarList = (id, updatedCar) => {
     setCars(cars.map(car => car.id === id ? { ...car, ...updatedCar } : car));
   };
 
@@ -40,9 +40,10 @@ export const CarProvider = ({ children }) => {
   return (
     <CarContext.Provider value={{
       cars,
+      setCars,
       rentals,
       addCar,
-      updateCar,
+      updateCarList,
       deleteCar,
       toggleAvailability
     }}>

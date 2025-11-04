@@ -30,7 +30,6 @@ import axios from 'axios';
 
 const CarManagement = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [cars, setCars] = useState([]);
   const [selectedCar, setSelectedCar] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [carToDelete, setCarToDelete] = useState(null);
@@ -38,7 +37,7 @@ const CarManagement = () => {
 
   const theme = useTheme();
   const { translation } = useLanguage();
-  const { addCar, updateCar, deleteCar, toggleAvailability } = useCarContext();
+  const { cars, setCars, addCar, updateCarList, deleteCar, toggleAvailability } = useCarContext();
   const { updateNotification, openNotification } = useNotification();
 
   const handleAddCar = () => {
@@ -49,14 +48,6 @@ const CarManagement = () => {
   const handleEditCar = (car) => {
     setSelectedCar(car);
     setDialogOpen(true);
-  };
-
-  const handleSaveCar = (carData) => {
-    if (selectedCar) {
-      updateCar(selectedCar.id, carData);
-    } else {
-      addCar(carData);
-    }
   };
 
   const handleDeleteClick = (car) => {
@@ -258,7 +249,6 @@ const CarManagement = () => {
       <CarDialog
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
-        onSave={handleSaveCar}
         car={selectedCar}
       />
 

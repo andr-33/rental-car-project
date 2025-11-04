@@ -18,6 +18,7 @@ import {
 
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useNotification } from '../../contexts/NotificationContext';
+import { useCarContext } from '../../contexts/CarContext';
 
 import ImageUpload from '../ImageUpload/ImageUpload';
 import InputField from '../InputField/InputField';
@@ -33,9 +34,9 @@ const INITIAL_VALUES = {
   available: true,
   transmission: 'manual',
   engine: 'gasoline',
-  seats: null,
+  seats: 4,
   drive: 'FWD',
-  image: ''
+  images: []
 }
 
 const CarDialog = ({ open, onClose, car = null }) => {
@@ -43,12 +44,13 @@ const CarDialog = ({ open, onClose, car = null }) => {
 
   const { translation } = useLanguage();
   const { updateNotification, openNotification } = useNotification();
+  const { updateCarList } = useCarContext();
 
   useEffect(() => {
     if (car) {
       setFormData(car);
     }
-  }, [car, open]);
+  }, [open]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,6 +79,22 @@ const CarDialog = ({ open, onClose, car = null }) => {
     try {
       const response = await axios.post('/api/car/create', formData);
       updateNotification('createCarSuccess', 'success');
+    } catch (error) {
+      console.error(error.response.data.error.message);
+      updateNotification(error.response.data.error.code, 'error');
+    } finally {
+      onClose();
+      openNotification();
+      setFormData(INITIAL_VALUES);
+    }
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`/api/car/update/${car.id}`, formData);
+      updateCarList(car.id, formData);
+      updateNotification('updateCarSuccess', 'success');
     } catch (error) {
       console.error(error.response.data.error.message);
       updateNotification(error.response.data.error.code, 'error');
@@ -236,7 +254,7 @@ const CarDialog = ({ open, onClose, car = null }) => {
         <Button onClick={onClose}>
           {translation('cancel')}
         </Button>
-        <Button onClick={handleSubmit} variant="contained" color="primary">
+        <Button onClick={car ? handleUpdate : handleSubmit} variant="contained" color="primary">
           {car ? translation('update') : translation('add')}
         </Button>
       </DialogActions>

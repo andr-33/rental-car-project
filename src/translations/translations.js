@@ -62,7 +62,8 @@ export const translations = {
     reservationRequested: '¡Reserva solicitada!',
     reservationConfirmationMessage: 'En breves un miembro de nuestro equipo se pondra en contacto contigo para confirmar tu reserva.',
     //Success
-    createCarSuccess: 'Coche creado correctamente',
+    createCarSuccess: 'Coche creado',
+    updateCarSuccess: 'Coche actualizado',
     //Error
     loginError: 'Revisa tus credenciales',
     getAirportsError: 'Error al obtener los aeropuertos',
@@ -168,7 +169,8 @@ export const translations = {
     reservationRequested: 'Reservation requested!',
     reservationConfirmationMessage: 'A member of our team will contact you shortly to confirm your reservation.',
     //Success
-    createCarSuccess: 'Car created successfully',
+    createCarSuccess: 'Car created',
+    updateCarSuccess: 'Car updated',
     //Error
     loginError: 'Check your credentials',
     getAirportsError: 'Error getting airports',
