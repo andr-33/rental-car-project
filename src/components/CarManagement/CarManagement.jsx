@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -17,14 +17,20 @@ import {
   ToggleOn as ToggleOnIcon,
   ToggleOff as ToggleOffIcon
 } from '@mui/icons-material';
+
 import { DataGrid } from '@mui/x-data-grid';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useCarContext } from '../../contexts/CarContext';
+import { useNotification } from '../../contexts/NotificationContext';
+
 import CarDialog from '../../components/CarDialog/CarDialog';
 import DeleteConfirmDialog from '../../components/DeleteConfirmDialog/DeleteConfirmDialog';
 
+import axios from 'axios';
+
 const CarManagement = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [cars, setCars] = useState([]);
   const [selectedCar, setSelectedCar] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [carToDelete, setCarToDelete] = useState(null);
@@ -32,7 +38,8 @@ const CarManagement = () => {
 
   const theme = useTheme();
   const { translation } = useLanguage();
-  const { cars, addCar, updateCar, deleteCar, toggleAvailability } = useCarContext();
+  const { addCar, updateCar, deleteCar, toggleAvailability } = useCarContext();
+  const { updateNotification, openNotification } = useNotification();
 
   const handleAddCar = () => {
     setSelectedCar(null);
@@ -79,18 +86,11 @@ const CarManagement = () => {
 
   const columns = [
     { 
-      field: 'id',
-      headerName: translation('id'), 
-      headerAlign: 'center',
-      align: 'center', 
-      flex: 0.2 
-    },
-    { 
       field: 'model', 
       headerName: translation('carModel'), 
       headerAlign: 'center',
       align: 'center', 
-      flex: 1 
+      flex: 0.7 
     },
     { 
       field: 'year', 
@@ -100,14 +100,14 @@ const CarManagement = () => {
       flex: 0.45
      },
     { 
-      field: 'licensePlate', 
+      field: 'license_plate', 
       headerName: translation('licensePlate'), 
       headerAlign: 'center',
       align: 'center', 
-      flex: 0.65, 
+      flex: 0.5, 
     },
     {
-      field: 'dailyPrice',
+      field: 'daily_price',
       headerName: translation('dailyPrice'),
       headerAlign: 'center',
       align: 'center',
@@ -119,7 +119,7 @@ const CarManagement = () => {
       headerName: translation('status'),
       headerAlign: 'center',
       align: 'center',
-      flex: 0.75,
+      flex: 0.6,
       renderCell: (params) => (
         <Chip
           label={params.value ? translation('available') : translation('notAvailable')}
@@ -133,11 +133,26 @@ const CarManagement = () => {
       )
     },
     {
+      field: 'seats',
+      headerName: translation('seats'),
+      headerAlign: 'center',
+      align: 'center',
+      flex: 0.4
+    },
+    {
+      field: 'transmission',
+      headerName: translation('transmission'),
+      headerAlign: 'center',
+      align: 'center',
+      flex: 0.5,
+      renderCell: (params) => translation(params.value)
+    },
+    {
       field: 'actions',
       headerName: translation('actions'),
       headerAlign: 'center',
       align: 'center',
-      flex: 0.8,
+      flex: 0.7,
       sortable: false,
       renderCell: (params) => (
         <>
@@ -156,27 +171,33 @@ const CarManagement = () => {
             onClick={() => handleEditCar(params.row)}
             title={translation('edit')}
           >
-            <EditIcon sx={{
-              ":hover": {
-                color: theme.palette.primary.main
-              }
-            }} />
+            <EditIcon sx={{ ":hover": {color: theme.palette.primary.main}}} />
           </IconButton>
           <IconButton
             size="small"
             onClick={() => handleDeleteClick(params.row)}
             title={translation('delete')}
           >
-            <DeleteIcon sx={{
-              ":hover": {
-                color: theme.palette.error.main
-              }
-            }} />
+            <DeleteIcon sx={{":hover": { color: theme.palette.error.main}}} />
           </IconButton>
         </>
       )
     }
   ];
+
+  useEffect(() => {
+    const fetchCarsData = async () => {
+      try {
+        const carsData = await axios.get('/api/car/all-cars');
+        setCars(carsData.data);
+      } catch (error) {
+        console.error(error.response.data.error.message);
+        updateNotification(error.response.data.error.code, 'error');
+        openNotification();
+      }
+    };
+    fetchCarsData();
+  }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
