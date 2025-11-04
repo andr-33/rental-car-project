@@ -6,7 +6,6 @@ import {
 
 import { useLanguage } from "../../contexts/LanguageContext";
 
-
 const SelectField = ({
   labelKey,
   name,

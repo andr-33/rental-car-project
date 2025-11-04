@@ -5,13 +5,9 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  TextField,
   Grid,
   IconButton,
   Stack,
-  FormControl,
-  FormLabel,
-  Select,
   MenuItem,
 } from '@mui/material';
 
@@ -24,7 +20,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useNotification } from '../../contexts/NotificationContext';
 
 import ImageUpload from '../ImageUpload/ImageUpload';
+import InputField from '../InputField/InputField';
 import SelectField from '../SelectField/SelectField';
+
 import axios from 'axios';
 
 const INITIAL_VALUES = {
@@ -35,7 +33,7 @@ const INITIAL_VALUES = {
   available: true,
   transmission: 'manual',
   engine: 'gasoline',
-  seats: 0,
+  seats: null,
   drive: 'FWD',
   image: ''
 }
@@ -43,7 +41,6 @@ const INITIAL_VALUES = {
 const CarDialog = ({ open, onClose, car = null }) => {
   const [formData, setFormData] = useState(INITIAL_VALUES);
 
-  console.log("Motoe: ", formData.engine);
   const { translation } = useLanguage();
   const { updateNotification, openNotification } = useNotification();
 
@@ -116,83 +113,48 @@ const CarDialog = ({ open, onClose, car = null }) => {
           <Grid size={12}>
             <Grid container spacing={1}>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('carModel')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="model"
-                    value={formData.model}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
+                <InputField
+                  labelKey={'carModel'}
+                  name={'model'}
+                  value={formData.model}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                />
               </Grid>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('carYear')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="year"
-                    type="number"
-                    value={formData.year}
-                    placeholder={new Date().getFullYear()}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
+                <InputField
+                  labelKey={'carYear'}
+                  name={'year'}
+                  type={'number'}
+                  value={formData.year}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  placeholder={new Date().getFullYear()}
+                />
               </Grid>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('licensePlate')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="license_plate"
-                    value={formData.license_plate}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
+                <InputField
+                  labelKey={'licensePlate'}
+                  name={'license_plate'}
+                  value={formData.license_plate}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                />
               </Grid>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('dailyPrice')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="daily_price"
-                    type="number"
-                    value={formData.daily_price}
-                    placeholder='$0.00'
-                    onChange={handleChange}
-                  />
-                </FormControl>
+                <InputField 
+                  labelKey={'dailyPrice'}
+                  name={'daily_price'}
+                  type={'number'}
+                  value={formData.daily_price}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  placeholder='$0.00'
+                />
               </Grid>
               <Grid size={6}>
                 <SelectField
@@ -233,24 +195,16 @@ const CarDialog = ({ open, onClose, car = null }) => {
                 </SelectField>
               </Grid>
               <Grid size={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
-                    sx={{
-                      fontSize: '16px'
-                    }}
-                  >
-                    {translation('seats')}
-                  </FormLabel>
-                  <TextField
-                    fullWidth
-                    name="seats"
-                    type="number"
-                    value={formData.seats}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
+                <InputField
+                  labelKey={'seats'}
+                  name={'seats'}
+                  type={'number'}
+                  value={formData.seats}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  placeholder={4}
+                />
               </Grid>
               <Grid size={6}>
                 <SelectField
