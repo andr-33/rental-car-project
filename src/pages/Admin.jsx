@@ -12,7 +12,7 @@ import Notification from "../components/Notification/Notification";
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState("cars");
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const { notification, closeNotification } = useNotification();
 
   const sectionComponents = {

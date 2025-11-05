@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -6,15 +6,8 @@ import {
   DialogActions,
   Button,
   Grid,
-  IconButton,
-  Stack,
   MenuItem,
 } from '@mui/material';
-
-import {
-  ToggleOn as ToggleOnIcon,
-  ToggleOff as ToggleOffIcon
-} from '@mui/icons-material';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -23,6 +16,7 @@ import { useCarContext } from '../../contexts/CarContext';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import InputField from '../InputField/InputField';
 import SelectField from '../SelectField/SelectField';
+import LoadingButton from '../LoadingButton/LoadingButton';
 
 import axios from 'axios';
 
@@ -41,14 +35,17 @@ const INITIAL_VALUES = {
 
 const CarDialog = ({ open, onClose, car = null }) => {
   const [formData, setFormData] = useState(INITIAL_VALUES);
+  const [loading, setLoading] = useState(false);
 
   const { translation } = useLanguage();
   const { updateNotification, openNotification } = useNotification();
-  const { updateCarList } = useCarContext();
+  const { addCar, updateCarList } = useCarContext();
 
   useEffect(() => {
     if (car) {
       setFormData(car);
+    } else{
+      setFormData(INITIAL_VALUES);
     }
   }, [open]);
 
@@ -67,59 +64,44 @@ const CarDialog = ({ open, onClose, car = null }) => {
     }));
   };
 
-  const handleToggleAvailability = () => {
-    setFormData(prev => ({
-      ...prev,
-      available: !prev.available
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post('/api/car/create', formData);
+      const createdCar = response.data;
+      addCar(createdCar);
       updateNotification('createCarSuccess', 'success');
     } catch (error) {
       console.error(error.response.data.error.message);
       updateNotification(error.response.data.error.code, 'error');
     } finally {
+      setLoading(false);
       onClose();
       openNotification();
-      setFormData(INITIAL_VALUES);
     }
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const response = await axios.put(`/api/car/update/${car.id}`, formData);
+      await axios.put(`/api/car/update/${car.id}`, formData);
       updateCarList(car.id, formData);
       updateNotification('updateCarSuccess', 'success');
     } catch (error) {
       console.error(error.response.data.error.message);
       updateNotification(error.response.data.error.code, 'error');
     } finally {
+      setLoading(false);
       onClose();
       openNotification();
-      setFormData(INITIAL_VALUES);
     }
   };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-        <DialogTitle>{car ? translation('editCar') : translation('addCar')}</DialogTitle>
-        <IconButton
-          size="small"
-          onClick={handleToggleAvailability}
-          sx={{ pr: 3 }}
-        >
-          {formData.available ?
-            <ToggleOnIcon fontSize='large' color='success' /> :
-            <ToggleOffIcon fontSize='large' />
-          }
-        </IconButton>
-      </Stack>
+      <DialogTitle>{car ? translation('editCar') : translation('addCar')}</DialogTitle>
       <DialogContent sx={{ pt: 0 }}>
         <Grid container spacing={2}>
           <Grid size={12}>
@@ -254,9 +236,11 @@ const CarDialog = ({ open, onClose, car = null }) => {
         <Button onClick={onClose}>
           {translation('cancel')}
         </Button>
-        <Button onClick={car ? handleUpdate : handleSubmit} variant="contained" color="primary">
-          {car ? translation('update') : translation('add')}
-        </Button>
+        <LoadingButton
+          text={car ? translation('update') : translation('add')}
+          onClick={car ? handleUpdate : handleSubmit}
+          loading={loading}
+        />
       </DialogActions>
     </Dialog>
   );

@@ -16,11 +16,7 @@ export const CarProvider = ({ children }) => {
   const [rentals] = useState(mockRentals);
 
   const addCar = (newCar) => {
-    const car = {
-      ...newCar,
-      id: Math.max(...cars.map(c => c.id)) + 1
-    };
-    setCars([...cars, car]);
+    setCars([...cars, newCar]);
   };
 
   const updateCarList = (id, updatedCar) => {
@@ -31,10 +27,18 @@ export const CarProvider = ({ children }) => {
     setCars(cars.filter(car => car.id !== id));
   };
 
-  const toggleAvailability = (id) => {
+  const toggleStatus = (id) => {
     setCars(cars.map(car => 
       car.id === id ? { ...car, available: !car.available } : car
     ));
+  };
+
+  const monthlyStats = () => {
+    const availableCars = cars.filter(car => car.available).length;
+    return{
+      totalCars: cars.length,
+      availableCars,
+    };
   };
 
   return (
@@ -45,7 +49,8 @@ export const CarProvider = ({ children }) => {
       addCar,
       updateCarList,
       deleteCar,
-      toggleAvailability
+      toggleStatus,
+      monthlyStats
     }}>
       {children}
     </CarContext.Provider>

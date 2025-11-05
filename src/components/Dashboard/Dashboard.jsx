@@ -10,6 +10,7 @@ import {
   CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext.jsx';
+import { useCarContext } from '../../contexts/CarContext.jsx';
 import StatCard from '../StatCard/StatCard.jsx';
 import { getMonthlyStats } from '../../data/mockData.js';
 
@@ -19,7 +20,9 @@ import 'dayjs/locale/en';
 
 const Dashboard = ()=> {
   const { language, translation } = useLanguage();
-  const stats = getMonthlyStats();
+  const { monthlyStats } = useCarContext();
+  const stats = monthlyStats();
+  const mockStats = getMonthlyStats();
   dayjs.locale(language);
 
   const capitalizeFirstLetter = (string) => {  
@@ -38,7 +41,7 @@ const Dashboard = ()=> {
         <Grid size={{ xs: 12, sm: 6 }}>
           <StatCard
             title={translation('totalRentals')}
-            value={stats.totalRentals}
+            value={mockStats.totalRentals}
             icon={<ReceiptIcon sx={{ fontSize: 32, color: 'primary.main' }} />}
             color="primary"
           />
@@ -47,7 +50,7 @@ const Dashboard = ()=> {
         <Grid size={{ xs: 12, sm: 6 }}>
           <StatCard
             title={translation('monthlyRevenue')}
-            value={`$${stats.totalRevenue.toLocaleString()}`}
+            value={`$${mockStats.totalRevenue.toLocaleString()}`}
             icon={<TrendingUpIcon sx={{ fontSize: 32, color: 'success.main' }} />}
             color="success"
           />
@@ -56,7 +59,7 @@ const Dashboard = ()=> {
         <Grid size={{ xs: 12, sm: 6 }}>
           <StatCard
             title={translation('activeRentals')}
-            value={stats.activeRentals}
+            value={mockStats.activeRentals}
             icon={<CheckCircleIcon sx={{ fontSize: 32, color: 'warning.main' }} />}
             color="warning"
           />

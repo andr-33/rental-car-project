@@ -79,13 +79,13 @@ export const getMonthlyStats = () => {
 
   const totalRevenue = monthlyRentals.reduce((sum, rental) => sum + rental.totalAmount, 0);
   const activeRentals = mockRentals.filter(r => r.status === 'Active').length;
-  const availableCars = mockCars.filter(car => car.available).length;
+  //const availableCars = mockCars.filter(car => car.available).length;
 
   return {
     totalRentals: monthlyRentals.length,
     totalRevenue,
     activeRentals,
-    availableCars,
-    totalCars: mockCars.length
+    //availableCars,
+    //totalCars: mockCars.length
   };
 };

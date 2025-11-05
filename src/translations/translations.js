@@ -67,8 +67,9 @@ export const translations = {
     //Error
     loginError: 'Revisa tus credenciales',
     getAirportsError: 'Error al obtener los aeropuertos',
-    getCarsError: 'Error al obtener los autos',
+    getCarsError: 'Error al obtener los coches',
     createCarError: 'Error al crear el coche',
+    updateCarStatusError: 'Error al actualizar el estado',
     //Dashboard
     dashboardTitle: 'Panel de Control',
     totalRentals: 'Total de Rentas',
@@ -77,10 +78,10 @@ export const translations = {
     availableCars: 'Autos Disponibles',
     //Car Management
     carManagementTitle: 'Gestión de Coches',
-    addCar: 'Añadir Vehículo',
+    addCar: 'Añadir Coche',
+    editCar: 'Editar Coche',
     filterCategory: 'Filtrar por Categoría',
-    filterAvailability: 'Filtrar por Disponibilidad',
-    toggleAvailability: 'Cambiar Disponibilidad', 
+    filterAvailability: 'Filtrar por Disponibilidad', 
     id: 'ID',
     carModel: 'Modelo',
     carYear: 'Año',
@@ -176,6 +177,7 @@ export const translations = {
     getAirportsError: 'Error getting airports',
     getCarsError: 'Error getting cars',
     createCarError: 'Error creating car',
+    updateCarStatusError: 'Error updating car status',
     //Dashboard
     dashboardTitle: 'Dashboard',
     totalRentals: 'Total Rentals',
@@ -185,9 +187,9 @@ export const translations = {
     //Car Management
     carManagementTitle: 'Car Management',
     addCar: 'Add Car',
+    editCar: 'Edit Car',
     filterCategory: 'Filter by Category',
     filterAvailability: 'Filter by Availability',
-    toggleAvailability: 'Toggle Availability',
     carId: 'ID',
     carModel: 'Model',
     carYear: 'Year',

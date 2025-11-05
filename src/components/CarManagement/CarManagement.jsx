@@ -37,7 +37,7 @@ const CarManagement = () => {
 
   const theme = useTheme();
   const { translation } = useLanguage();
-  const { cars, setCars, addCar, updateCarList, deleteCar, toggleAvailability } = useCarContext();
+  const { cars, setCars, toggleStatus, deleteCar } = useCarContext();
   const { updateNotification, openNotification } = useNotification();
 
   const handleAddCar = () => {
@@ -63,8 +63,15 @@ const CarManagement = () => {
     }
   };
 
-  const handleToggleAvailability = (id) => {
-    toggleAvailability(id);
+  const handleToggleStatus = async (id, newStatus) => {
+    try{
+      await axios.put(`/api/car/toggle-status/${id}`, { newStatus });
+      toggleStatus(id);
+    } catch (error){
+      console.error(error.response.data.error.message);
+      updateNotification(error.response.data.error.code, 'error');
+      openNotification();
+    }
   };
 
   const filteredCars = cars.filter(car => {
@@ -149,8 +156,7 @@ const CarManagement = () => {
         <>
           <IconButton
             size="small"
-            onClick={() => handleToggleAvailability(params.row.id)}
-            title={translation('toggleAvailability')}
+            onClick={() => handleToggleStatus(params.row.id, !params.row.available)}
           >
             {params.row.available ?
               <ToggleOnIcon color='success' /> :
