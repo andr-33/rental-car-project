@@ -2,7 +2,8 @@ export const mockRentals = [
   {
     id: 1,
     carId: 3,
-    carInfo: 'Ford Mustang (DEF-9012)',
+    model: 'Ford Mustang',
+    license_plate: 'DEF-9012',
     customerName: 'John Smith',
     startDate: '2025-10-15',
     endDate: '2025-10-20',
@@ -13,7 +14,8 @@ export const mockRentals = [
   {
     id: 2,
     carId: 6,
-    carInfo: 'Mercedes C-Class (MNO-2345)',
+    model: 'Mercedes C-Class',
+    license_plate: 'MNO-2345',
     customerName: 'Sarah Johnson',
     startDate: '2025-10-18',
     endDate: '2025-10-22',
@@ -24,7 +26,8 @@ export const mockRentals = [
   {
     id: 3,
     carId: 1,
-    carInfo: 'Toyota Camry (ABC-1234)',
+    model: 'Toyota Camry',
+    license_plate: 'ABC-1234',
     customerName: 'Michael Brown',
     startDate: '2025-10-01',
     endDate: '2025-10-05',
@@ -35,7 +38,8 @@ export const mockRentals = [
   {
     id: 4,
     carId: 2,
-    carInfo: 'Honda CR-V (XYZ-5678)',
+    model: 'Honda CR-V',
+    license_plate: 'XYZ-5678',
     customerName: 'Emily Davis',
     startDate: '2025-10-08',
     endDate: '2025-10-12',
@@ -46,7 +50,8 @@ export const mockRentals = [
   {
     id: 5,
     carId: 4,
-    carInfo: 'Tesla Model 3 (GHI-3456)',
+    model: 'Tesla Model 3',
+    license_plate: 'GHI-3456',
     customerName: 'David Wilson',
     startDate: '2025-10-10',
     endDate: '2025-10-15',
@@ -57,7 +62,8 @@ export const mockRentals = [
   {
     id: 6,
     carId: 5,
-    carInfo: 'BMW X5 (JKL-7890)',
+    model: 'BMW X5',
+    license_plate: 'JKL-7890',
     customerName: 'Lisa Anderson',
     startDate: '2025-10-12',
     endDate: '2025-10-17',
