@@ -16,10 +16,13 @@ const Review = () => {
   return (
     <>
       <Typography variant="h5" gutterBottom>
-        {translation("rentalSummary")}
+        {translation("takeALook")}
       </Typography>
-      <Typography variant="body1">
-        {translation("selectedCar")}: {overview.car_name} ({translation("orSimilar")})
+      <Typography variant="body1"  fontWeight={'bold'}>
+        {translation("selectedCar")}:{" "}
+        <Typography component={'span'}>
+          {overview.car_name} ({translation("orSimilar")})
+        </Typography>
       </Typography>
       <Divider sx={{ my: 2 }} />
       <Grid container spacing={2}>

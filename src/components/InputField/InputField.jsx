@@ -24,7 +24,6 @@ const InputField = ({
      <FormControl
       fullWidth={fullWidth}
       required={required}
-      disabled={disabled}
       error={error}
      >
       <FormLabel sx={{fontSize: '16px'}}>{translation(labelKey)}</FormLabel>
@@ -34,6 +33,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        disabled={disabled}
       />
      </FormControl>   
   );

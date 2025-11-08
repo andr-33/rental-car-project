@@ -1,78 +1,113 @@
+import { useEffect, useState } from "react";
 import {
   Box,
-  TextField,
   Grid,
-  FormControl,
-  FormLabel
 } from "@mui/material";
 
-import { useLanguage } from "../../contexts/LanguageContext";
+import { useAuth } from "../../contexts/AuthContext";
+
+import InputField from "../InputField/InputField";
+
+import axios from "axios";
+
+const INITIAL_VALUES = {
+  full_name: "",
+  address: "",
+  country: "",
+  city: "",
+  zip_code: "",
+  passport: "",
+  phone: "",
+};
 
 const AddressForm = () => {
+  const [formData, setFormData] = useState(INITIAL_VALUES);
+  const [loading, setLoading] = useState(false);
+  console.log("Address Form: ",formData);
 
-  const { translation } = useLanguage();
+  const { sessionToken } = useAuth();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try { 
+        const response = await axios.get('/api/user/auth', {
+          headers: {
+            Authorization: `Bearer ${sessionToken}`,
+          },
+        });
+        console.log("User data: ", response.data);
+        setFormData(prev => ({ ...prev, ...response.data }));
+      } catch (error) {
+        console.error(error.response.data.error.message);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   return (
     <Box component="form">
       <Grid container spacing={2}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <FormControl fullWidth>
-            <FormLabel sx={{fontSize: "1em"}}>{translation("firstName")}</FormLabel>
-            <TextField
-              name="firstName"
-              type="text"
-              required
-              disabled
-            />
-          </FormControl>
+        <Grid size={12}>
+          <InputField 
+            labelKey={'fullName'}
+            name={'full_name'}
+            value={formData.full_name}
+            disabled
+            fullWidth
+          />
+        </Grid>
+        <Grid size={12}>
+          <InputField 
+            labelKey={'address'}
+            name={'address'}
+            value={formData.address}
+            onChange={handleChange}
+            fullWidth
+          />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <FormControl fullWidth>
-            <FormLabel sx={{fontSize: "1em"}}>{translation("lastName")}</FormLabel>
-            <TextField
-              name="lastName"
-              type="text"
-              required
-              disabled
-            />
-          </FormControl>
-        </Grid>
-        <Grid size={{ xs: 12 }}>
-          <FormControl fullWidth>
-            <FormLabel sx={{fontSize: "1em"}}>{translation("address")}*</FormLabel>
-            <TextField
-              name="address"
-              type="text"
-              required
-            />
-          </FormControl>
+          <InputField 
+            labelKey={'country'}
+            name={'country'}
+            value={formData.country}
+            onChange={handleChange}
+            fullWidth
+          />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <FormControl fullWidth>
-            <FormLabel sx={{fontSize: "1em"}}>{translation("country")}*</FormLabel>
-            <TextField
-              id="phone"
-              autoComplete="tel"
-            />
-          </FormControl>
+          <InputField 
+            labelKey={'city'}
+            name={'city'}
+            value={formData.city}
+            onChange={handleChange}
+            fullWidth
+          />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <FormControl fullWidth>
-            <FormLabel sx={{fontSize: "1em"}}>{translation("city")}*</FormLabel>
-            <TextField
-              id="phone"
-              autoComplete="tel"
-            />
-          </FormControl>
+          <InputField 
+            labelKey={'zip_code'}
+            name={'zip_code'}
+            value={formData.zip_code}
+            onChange={handleChange}
+            fullWidth
+          />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <FormControl fullWidth>
-            <FormLabel sx={{fontSize: "1em"}}>{translation("zipCode")}*</FormLabel>
-            <TextField
-              id="phone"
-              autoComplete="tel"
-            />
-          </FormControl>
+          <InputField 
+            labelKey={'phone'}
+            name={'phone'}
+            value={formData.phone}
+            onChange={handleChange}
+            fullWidth
+          />
         </Grid>
       </Grid>
     </Box>
