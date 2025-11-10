@@ -15,42 +15,92 @@ const Review = () => {
 
   return (
     <>
-      <Typography variant="h5" gutterBottom>
-        {translation("takeALook")}
-      </Typography>
-      <Typography variant="body1"  fontWeight={'bold'}>
-        {translation("selectedCar")}:{" "}
-        <Typography component={'span'}>
-          {overview.car_name} ({translation("orSimilar")})
-        </Typography>
-      </Typography>
+      <Typography variant="h6" fontWeight={'bold'}>{translation("selectedCar")}</Typography>
+      <Typography variant="body1">{overview.car_name}</Typography>
       <Divider sx={{ my: 2 }} />
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="h6">{translation("pickup")}</Typography>
-          <Typography variant="body2">
-            {overview.airport_code} - {overview.airport_city}
+          <Typography
+            variant="h6"
+            fontWeight={'bold'}
+            sx={{ textDecoration: 'underline' }}
+          >
+            {translation("pickup")}
           </Typography>
-          <Typography variant="body2">
-            {dayjs(overview.pickup_date).format('DD/MM/YYYY HH:mm')}
+          <Typography variant="body1">
+            <Typography
+              component="span"
+              fontWeight="bold"
+            >
+              {translation("airport")}:{" "}
+            </Typography>
+            {overview.airport_city}
+          </Typography>
+          <Typography variant="body1">
+            <Typography
+              component="span"
+              fontWeight="bold"
+            >
+              {translation("date")}:{" "}
+            </Typography>
+            {dayjs(overview.pickup_date).format('DD/MM/YYYY')}
+          </Typography>
+          <Typography variant="body1">
+            <Typography
+              component="span"
+              fontWeight="bold"
+            >
+              {translation("time")}:{" "}
+            </Typography>
+            {dayjs(overview.pickup_date).format('HH:mm')}
           </Typography>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="h6">{translation("return")}</Typography>
-          <Typography variant="body2">
-            {overview.airport_code} - {overview.airport_city}
+          <Typography
+            variant="h6"
+            fontWeight={'bold'}
+            sx={{ textDecoration: 'underline' }}
+          >
+            {translation("return")}
           </Typography>
-          <Typography variant="body2">
-            {dayjs(overview.return_date).format('DD/MM/YYYY HH:mm')}
+          <Typography variant="body1">
+            <Typography
+              component="span"
+              fontWeight="bold"
+            >
+              {translation("airport")}:{" "}
+            </Typography>
+            {overview.airport_city}
+          </Typography>
+          <Typography variant="body1">
+            <Typography
+              component="span"
+              fontWeight="bold"
+            >
+              {translation("date")}:{" "}
+            </Typography>
+            {dayjs(overview.return_date).format('DD/MM/YYYY')}
+          </Typography>
+          <Typography variant="body1">
+            <Typography
+              component="span"
+              fontWeight="bold"
+            >
+              {translation("time")}:{" "}
+            </Typography>
+            {dayjs(overview.return_date).format('HH:mm')}
           </Typography>
         </Grid>
       </Grid>
       <Divider sx={{ my: 2 }} />
       <Typography variant="body1">
-        {translation("days")}: {overview.days}
-      </Typography>
-      <Typography variant="h6" sx={{ mt: 1 }}>
-        Total: {overview.total_amount?.toFixed(2) || "0.00"} €
+        <Typography
+          component="span"
+          fontWeight="bold"
+        >
+          {translation("reservationTime")}:{" "}
+        </Typography>
+        {overview.days} {overview.days > 1 ? translation("days") : translation("day")}
       </Typography>
     </>
   );
