@@ -62,6 +62,7 @@ export const translations = {
     reservationRequested: '¡Reserva solicitada!',
     reservationConfirmationMessage: 'En breves un miembro de nuestro equipo se pondra en contacto contigo para confirmar tu reserva.',
     takeALook: 'Hecha un vistazo',
+    contactDetail: 'Detalles de Contacto',
     //Success
     createCarSuccess: 'Coche creado',
     updateCarSuccess: 'Coche actualizado',
@@ -171,6 +172,7 @@ export const translations = {
     reservationRequested: 'Reservation requested!',
     reservationConfirmationMessage: 'A member of our team will contact you shortly to confirm your reservation.',
     takeALook: 'Take a look',
+    contactDetail: 'Contact Details',
     //Success
     createCarSuccess: 'Car created',
     updateCarSuccess: 'Car updated',

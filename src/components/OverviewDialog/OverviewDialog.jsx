@@ -15,7 +15,7 @@ import { Close, ChevronLeftRounded, ChevronRightRounded } from '@mui/icons-mater
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useOverview } from '../../contexts/OverViewContext';
 
-import AddressForm from '../AddressForm/AddressForm';
+import ContactDetailsForm from '../ContactDetailsForm/ContactDetailsForm';
 import PriceDeatils from '../PriceDetails/PriceDetails';
 import StepSection from '../StepSection/StepSection';
 import Review from '../Review/Review';
@@ -25,12 +25,12 @@ const Transition = forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const steps = ['address', 'review'];
+const steps = ['contactDetail', 'review'];
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <ContactDetailsForm />;
     case 1:
       return <Review />;
     default:

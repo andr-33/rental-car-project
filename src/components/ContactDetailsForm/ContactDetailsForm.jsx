@@ -5,31 +5,19 @@ import {
 } from "@mui/material";
 
 import { useAuth } from "../../contexts/AuthContext";
+import { useOverview } from "../../contexts/OverViewContext";
 
 import InputField from "../InputField/InputField";
 
 import axios from "axios";
 
-const INITIAL_VALUES = {
-  full_name: "",
-  address: "",
-  country: "",
-  city: "",
-  zip_code: "",
-  passport: "",
-  phone: "",
-};
-
-const AddressForm = () => {
-  const [formData, setFormData] = useState(INITIAL_VALUES);
-  const [loading, setLoading] = useState(false);
-  console.log("Address Form: ",formData);
-
+const ContactDetailsForm = () => {
   const { sessionToken } = useAuth();
+  const { contactDetails, setContactDetails } = useOverview();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setContactDetails(prev => ({
       ...prev,
       [name]: value
     }));
@@ -43,23 +31,34 @@ const AddressForm = () => {
             Authorization: `Bearer ${sessionToken}`,
           },
         });
-        console.log("User data: ", response.data);
-        setFormData(prev => ({ ...prev, ...response.data }));
+        setContactDetails(prev => ({ ...prev, ...response.data }));
       } catch (error) {
         console.error(error.response.data.error.message);
       }
     };
-    fetchUserData();
+
+    if(!contactDetails.full_name){
+      fetchUserData();
+    }
   }, []);
 
   return (
     <Box component="form">
       <Grid container spacing={2}>
-        <Grid size={12}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <InputField 
             labelKey={'fullName'}
             name={'full_name'}
-            value={formData.full_name}
+            value={contactDetails.full_name}
+            disabled
+            fullWidth
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <InputField 
+            labelKey={'passport'}
+            name={'passport'}
+            value={contactDetails.passport}
             disabled
             fullWidth
           />
@@ -68,45 +67,50 @@ const AddressForm = () => {
           <InputField 
             labelKey={'address'}
             name={'address'}
-            value={formData.address}
+            value={contactDetails.address}
             onChange={handleChange}
             fullWidth
+            required
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <InputField 
             labelKey={'country'}
             name={'country'}
-            value={formData.country}
+            value={contactDetails.country}
             onChange={handleChange}
             fullWidth
+            required
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <InputField 
             labelKey={'city'}
             name={'city'}
-            value={formData.city}
+            value={contactDetails.city}
             onChange={handleChange}
             fullWidth
+            required
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <InputField 
-            labelKey={'zip_code'}
+            labelKey={'zipCode'}
             name={'zip_code'}
-            value={formData.zip_code}
+            value={contactDetails.zip_code}
             onChange={handleChange}
             fullWidth
+            required
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <InputField 
             labelKey={'phone'}
             name={'phone'}
-            value={formData.phone}
+            value={contactDetails.phone}
             onChange={handleChange}
             fullWidth
+            required
           />
         </Grid>
       </Grid>
@@ -114,4 +118,4 @@ const AddressForm = () => {
   );
 };
 
-export default AddressForm;
+export default ContactDetailsForm;

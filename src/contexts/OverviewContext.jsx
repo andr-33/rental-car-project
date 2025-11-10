@@ -1,4 +1,4 @@
-import { createContext, useContext, useState} from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const OverviewContext = createContext();
 
@@ -11,21 +11,34 @@ export const useOverview = () => {
   return context;
 };
 
+const INITIAL_VALUES_CONTACT_DETAILS = {
+  full_name: "",
+  address: "",
+  country: "",
+  city: "",
+  zip_code: "",
+  passport: "",
+  phone: "",
+};
+
+const INITIAL_VALUES_OVERVIEW = {
+  airport_code: "",
+  airport_city: "",
+  car_id: null,
+  car_name: null,
+  car_main_image: null,
+  pickup_date: null,
+  return_date: null,
+  days: 0,
+  total_amount: 0.0,
+};
+
 export const OverviewProvider = ({ children }) => {
-  const [overview, _setOverview] = useState({
-    airport_code: "",
-    airport_city: "",
-    car_id: null,
-    car_name: null,
-    car_main_image: null,
-    pickup_date: null,
-    return_date: null,
-    days: 0,
-    total_amount: 0.0,
-  });
+  const [overview, _setOverview] = useState(INITIAL_VALUES_OVERVIEW);
+  const [contactDetails, setContactDetails] = useState(INITIAL_VALUES_CONTACT_DETAILS);
   const [openOverviewDialog, _setOpenOverviewDialog] = useState(false);
 
-  const updateOverview = (key, value) =>{
+  const updateOverview = (key, value) => {
     _setOverview(prev => ({
       ...prev,
       [key]: value,
@@ -38,7 +51,16 @@ export const OverviewProvider = ({ children }) => {
 
 
   return (
-    <OverviewContext.Provider value={{ overview, updateOverview, openOverviewDialog, toggleOverviewDialog }}>
+    <OverviewContext.Provider
+      value={{
+        overview,
+        updateOverview,
+        openOverviewDialog,
+        toggleOverviewDialog,
+        contactDetails,
+        setContactDetails
+      }}
+    >
       {children}
     </OverviewContext.Provider>
   );
