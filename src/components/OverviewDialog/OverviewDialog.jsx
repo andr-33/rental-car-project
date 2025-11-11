@@ -8,7 +8,6 @@ import {
   Typography,
   Box,
   Grid,
-  Stack,
   Button,
 } from '@mui/material';
 import { Close, ChevronLeftRounded, ChevronRightRounded } from '@mui/icons-material';
@@ -20,6 +19,8 @@ import PriceDeatils from '../PriceDetails/PriceDetails';
 import StepSection from '../StepSection/StepSection';
 import Review from '../Review/Review';
 import Confirmation from '../Confirmation/Confirmation';
+
+import axios from 'axios';
 
 const Transition = forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -41,8 +42,10 @@ function getStepContent(step) {
 const OverviewDialog = () => {
   const [activeStep, setActiveStep] = useState(0);
 
+  const isLastStep = activeStep === steps.length - 1;
+
   const { translation } = useLanguage();
-  const { overview, openOverviewDialog, toggleOverviewDialog } = useOverview();
+  const { overview, contactDetails, openOverviewDialog, toggleOverviewDialog } = useOverview();
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -50,6 +53,21 @@ const OverviewDialog = () => {
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+  };
+
+  const handleSubmitRequestReservation = async () =>{
+    const rentalData = {...contactDetails, ...overview }
+    try{
+      const response = await axios.post('/api/rental/create', rentalData, {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error.response.data.error.message);
+    }
   };
 
   return (
@@ -107,7 +125,7 @@ const OverviewDialog = () => {
           <Box
             component="img"
             src={overview.car_main_image}
-            alt={overview.car_name}
+            alt={overview.model}
             sx={{
               width: 270,
               height: 172,
@@ -187,10 +205,10 @@ const OverviewDialog = () => {
             <Button
               variant="contained"
               endIcon={<ChevronRightRounded />}
-              onClick={handleNext}
+              onClick={isLastStep ? handleSubmitRequestReservation : handleNext}
               sx={{ width: { xs: '100%', sm: 'fit-content' } }}
             >
-              {activeStep === steps.length - 1 ? translation("requestReservation") : translation("next")}
+              {isLastStep ? translation("requestReservation") : translation("next")}
             </Button>
           </Box>
         </Grid>

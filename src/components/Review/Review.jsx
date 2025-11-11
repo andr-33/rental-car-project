@@ -16,7 +16,7 @@ const Review = () => {
   return (
     <>
       <Typography variant="h6" fontWeight={'bold'}>{translation("selectedCar")}</Typography>
-      <Typography variant="body1">{overview.car_name}</Typography>
+      <Typography variant="body1">{overview.model}</Typography>
       <Divider sx={{ my: 2 }} />
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>

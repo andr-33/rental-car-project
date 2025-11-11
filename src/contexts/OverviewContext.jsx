@@ -25,7 +25,7 @@ const INITIAL_VALUES_OVERVIEW = {
   airport_code: "",
   airport_city: "",
   car_id: null,
-  car_name: null,
+  model: null,
   car_main_image: null,
   pickup_date: null,
   return_date: null,

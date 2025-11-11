@@ -48,7 +48,7 @@ const PriceDeatils = () => {
         fontWeight="bold"
         sx={{ mb: 1 }}
       >
-        {overview.car_name}{" "}
+        {overview.model}{" "}
         <Typography 
           component="span" 
           variant="h6"
