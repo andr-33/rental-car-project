@@ -29,7 +29,7 @@ const INITIAL_VALUES_OVERVIEW = {
   car_main_image: null,
   pickup_date: null,
   return_date: null,
-  days: 0,
+  rental_days: 0,
   total_amount: 0.0,
 };
 

@@ -13,6 +13,7 @@ import {
 import { Close, ChevronLeftRounded, ChevronRightRounded } from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useOverview } from '../../contexts/OverViewContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 import ContactDetailsForm from '../ContactDetailsForm/ContactDetailsForm';
 import PriceDeatils from '../PriceDetails/PriceDetails';
@@ -46,6 +47,7 @@ const OverviewDialog = () => {
 
   const { translation } = useLanguage();
   const { overview, contactDetails, openOverviewDialog, toggleOverviewDialog } = useOverview();
+  const { sessionToken } = useAuth();
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -58,7 +60,7 @@ const OverviewDialog = () => {
   const handleSubmitRequestReservation = async () =>{
     const rentalData = {...contactDetails, ...overview }
     try{
-      const response = await axios.post('/api/rental/create', rentalData, {
+      const response = await axios.post('/api/rental/create-request', rentalData, {
         headers: {
           Authorization: `Bearer ${sessionToken}`,
         },

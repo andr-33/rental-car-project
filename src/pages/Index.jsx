@@ -66,7 +66,7 @@ const Index = () => {
   }, [returnDate]);
 
   useEffect(()=>{
-    updateOverview("days", rentalDays);
+    updateOverview("rental_days", rentalDays);
   }, [rentalDays]);
 
   useEffect(()=>{

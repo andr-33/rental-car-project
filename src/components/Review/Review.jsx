@@ -100,7 +100,7 @@ const Review = () => {
         >
           {translation("reservationTime")}:{" "}
         </Typography>
-        {overview.days} {overview.days > 1 ? translation("days") : translation("day")}
+        {overview.rental_days} {overview.rental_days > 1 ? translation("days") : translation("day")}
       </Typography>
     </>
   );
