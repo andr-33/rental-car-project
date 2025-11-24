@@ -24,15 +24,22 @@ import { OverviewProvider, useOverview } from '../contexts/OverViewContext';
 import { NotificationProvider, useNotification } from '../contexts/NotificationContext';
 
 import CarList from '../components/CarList/CarList';
-import OverviewDialog  from '../components/OverviewDialog/OverviewDialog';
+import OverviewDialog from '../components/OverviewDialog/OverviewDialog';
 import HomeAppBar from '../components/HomeAppBar/HomeAppBar';
 import Notification from '../components/Notification/Notification';
 
+const INITIAL_VALUES = {
+  airport_code: '',
+  airport_city: '',
+  pickup_date: null,
+  return_date: null,
+  rental_days: 0,
+};
+
 const Index = () => {
   const [airportsData, setAirportsData] = useState([]);
-  const [selectedAirport, setSelectedAirport] = useState('');
-  const [pickupDate, setPickupDate] = useState(null);
-  const [returnDate, setReturnDate] = useState(null);
+  const [disableButton, setDisableButton] = useState(true);
+  const [formData, setFormData] = useState(INITIAL_VALUES);
   const [showCars, setShowCars] = useState(false);
 
   const { language, translation } = useLanguage();
@@ -41,47 +48,92 @@ const Index = () => {
 
   dayjs.locale(language);
 
-  const calculateRentalDays = () => {
-    if (pickupDate && returnDate) {
-      const days = dayjs(returnDate).diff(dayjs(pickupDate), 'day');
-      return days > 0 ? days : 0;
+  const handleCalculateRentalDays = () => {
+    const { pickup_date, return_date } = formData;
+
+    if (pickup_date && return_date) {
+      const days = dayjs(return_date).diff(dayjs(pickup_date), 'day');
+
+      setFormData(prev => ({
+        ...prev,
+        rental_days: days
+      }));
+
+      updateOverview("rental_days", days);
     }
-    return 0;
+    return;
   };
 
   const handleSearch = () => {
-    if (selectedAirport && pickupDate && returnDate) {
+    const { airport_code, pickup_date, return_date } = formData;
+
+    if (airport_code && pickup_date && return_date) {
       setShowCars(true);
     }
   };
 
-  const rentalDays = calculateRentalDays();
+  const handleSetLocalData = () => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  };
 
-  useEffect(()=>{
-    updateOverview("pickup_date", pickupDate);
-  }, [pickupDate]);
+  const handleAirportChange = (e) => {
+    const { value } = e.target;
+    const airport = airportsData.find(
+      (airport) => airport.code === value
+    );
+    
+    setFormData(prev => ({
+      ...prev,
+      airport_code: airport.code,
+      airport_city: airport.city
+    }));
 
-  useEffect(()=>{
-    updateOverview("return_date", returnDate);
-  }, [returnDate]);
+    updateOverview("airport_code", airport.code);
+    updateOverview("airport_city", airport.city);
+  };
 
-  useEffect(()=>{
-    updateOverview("rental_days", rentalDays);
-  }, [rentalDays]);
+  const handleDateChange = (date, type) => {
+    setFormData(prev => ({
+      ...prev,
+      [type]: date
+    }));
+    updateOverview(type, date);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (formData.pickup_date && formData.return_date) {
+      handleCalculateRentalDays();
+      setDisableButton(false);
+    } else {
+      setDisableButton(true);
+    }
+  }, [formData.pickup_date, formData.return_date]);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("formData");
+    if (localData) {
+      const parsedData = JSON.parse(localData);
+      setFormData({
+        ...parsedData,
+        return_date: parsedData.return_date ? dayjs(parsedData.return_date) : null,
+        pickup_date: parsedData.pickup_date ? dayjs(parsedData.pickup_date) : null,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchAirportsData = async () => {
-      try{
+      try {
         const airportsData = await axios.get("/api/airport/all-airports");
         setAirportsData(airportsData.data);
-      } catch (error){
+      } catch (error) {
         console.error(error.response.data.error.message);
         updateNotification(error.response.data.error.code, "error");
         openNotification();
       }
     };
     fetchAirportsData();
-  },[]);
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
@@ -89,8 +141,8 @@ const Index = () => {
         <HomeAppBar />
         <Box
           sx={{
-            position: "relative", 
-            width: "100%", 
+            position: "relative",
+            width: "100%",
             height: showCars ? "40vh" : "100vh",
             transition: "height 0.4s ease",
             overflow: "hidden"
@@ -131,11 +183,11 @@ const Index = () => {
               zIndex: -1,
             }}
           />
-          <Box 
-            sx={{ 
-              height: "100%", 
-              display: "flex", 
-              flexDirection: "column", 
+          <Box
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
               justifyContent: "center",
             }}
           >
@@ -151,12 +203,12 @@ const Index = () => {
             >
               {translation('heroSubtitle')}
             </Typography>
-            <Paper 
-              elevation={3} 
-              sx={{ 
-                p: { xs: 2, md: 3 }, 
-                mx: { xs: 2, md: 3 }, 
-                borderRadius: 3 
+            <Paper
+              elevation={3}
+              sx={{
+                p: { xs: 2, md: 3 },
+                mx: { xs: 2, md: 3 },
+                borderRadius: 3
               }}
             >
               <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
@@ -164,16 +216,9 @@ const Index = () => {
                   <FormControl fullWidth>
                     <InputLabel>{translation('selectAirport')}</InputLabel>
                     <Select
-                      value={selectedAirport}
+                      value={formData.airport_code}
                       label={translation('selectAirport')}
-                      onChange={(e) => {
-                        const airport = airportsData.find(
-                          (airport) => airport.code === e.target.value
-                        );
-                        setSelectedAirport(airport.code);
-                        updateOverview("airport_code", airport.code);
-                        updateOverview("airport_city", airport.city);
-                      }}
+                      onChange={event => handleAirportChange(event)}
                     >
                       {airportsData.map((airport) => (
                         <MenuItem key={airport.id} value={airport.code}>
@@ -187,8 +232,8 @@ const Index = () => {
                 <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                   <DateTimePicker
                     label={translation('pickupDate')}
-                    value={pickupDate}
-                    onChange={setPickupDate}
+                    value={formData.pickup_date}
+                    onChange={date => handleDateChange(date, "pickup_date")}
                     minDate={dayjs()}
                     slotProps={{ textField: { fullWidth: true } }}
                   />
@@ -197,9 +242,9 @@ const Index = () => {
                 <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                   <DateTimePicker
                     label={translation('returnDate')}
-                    value={returnDate}
-                    onChange={setReturnDate}
-                    minDate={pickupDate || dayjs()}
+                    value={formData.return_date}
+                    onChange={date => handleDateChange(date, "return_date")}
+                    minDate={dayjs()}
                     slotProps={{ textField: { fullWidth: true } }}
                   />
                 </Grid>
@@ -211,9 +256,12 @@ const Index = () => {
                     fullWidth
                     size="large"
                     startIcon={<Search />}
-                    onClick={handleSearch}
-                    disabled={!selectedAirport || !pickupDate || !returnDate}
-                    sx={{ height: 56, borderRadius: "1em"}}
+                    onClick={()=>{
+                      handleSearch();
+                      handleSetLocalData();
+                    }}
+                    disabled={disableButton}
+                    sx={{ height: 56, borderRadius: "1em" }}
                   >
                     {translation('searchCars')}
                   </Button>
@@ -222,10 +270,10 @@ const Index = () => {
             </Paper>
           </Box>
         </Box>
-        <CarList 
-          rentalDays={rentalDays} 
-          translation={translation} 
-          showCars={showCars} 
+        <CarList
+          rentalDays={formData.rental_days}
+          translation={translation}
+          showCars={showCars}
         />
       </Box>
       <OverviewDialog />
