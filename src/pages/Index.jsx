@@ -73,7 +73,7 @@ const Index = () => {
   };
 
   const handleSetLocalData = () => {
-    localStorage.setItem("formData", JSON.stringify(formData));
+    sessionStorage.setItem("formData", JSON.stringify(formData));
   };
 
   const handleAirportChange = (e) => {
@@ -110,7 +110,7 @@ const Index = () => {
   }, [formData.pickup_date, formData.return_date]);
 
   useEffect(() => {
-    const localData = localStorage.getItem("formData");
+    const localData = sessionStorage.getItem("formData");
     if (localData) {
       const parsedData = JSON.parse(localData);
       setFormData({
