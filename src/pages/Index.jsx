@@ -118,6 +118,12 @@ const Index = () => {
         return_date: parsedData.return_date ? dayjs(parsedData.return_date) : null,
         pickup_date: parsedData.pickup_date ? dayjs(parsedData.pickup_date) : null,
       });
+
+      updateOverview("airport_code", parsedData.airport_code);
+      updateOverview("airport_city", parsedData.airport_city);
+      updateOverview("pickup_date", parsedData.pickup_date);
+      updateOverview("return_date", parsedData.return_date);
+      updateOverview("rental_days", parsedData.rental_days);
     }
   }, []);
 
