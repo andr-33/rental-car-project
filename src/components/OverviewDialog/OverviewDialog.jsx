@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, use, useEffect, useState } from 'react';
 import {
   Dialog,
   Slide,
@@ -57,20 +57,64 @@ const OverviewDialog = () => {
     setActiveStep(activeStep - 1);
   };
 
-  const handleSubmitRequestReservation = async () =>{
-    const rentalData = {...contactDetails, ...overview }
-    try{
+  const getNextButtonProps = () => {
+    if (activeStep === steps.length) {
+      return {
+        label: translation("close"),
+        onClick: toggleOverviewDialog,
+      }
+    }
+
+    if (isLastStep) {
+      return {
+        label: translation("requestReservation"),
+        onClick: handleSubmitRequestReservation,
+      }
+    }
+
+    return {
+      label: translation("next"),
+      onClick: handleNext,
+      icon: <ChevronRightRounded />,
+    }
+  };
+
+  const getBackButtonProps = () => {
+    if (activeStep === 0 || !isLastStep) {
+      return {
+        hidden: true,
+        label: "",
+        onClick: handleBack,
+      }
+    }
+
+    return {
+      label: translation("previous"),
+      onClick: handleBack,
+      icon: <ChevronLeftRounded />,
+      hidden: false,
+    }
+  };
+
+  const handleSubmitRequestReservation = async () => {
+    const rentalData = { ...contactDetails, ...overview }
+    try {
       const response = await axios.post('/api/rental/create-request', rentalData, {
         headers: {
           Authorization: `Bearer ${sessionToken}`,
         },
       });
 
-      console.log(response.data);
+      handleNext();
     } catch (error) {
       console.error(error.response.data.error.message);
     }
+
+    handleNext();
   };
+
+  const nextButtonProps = getNextButtonProps();
+  const backButtonProps = getBackButtonProps();
 
   return (
     <Dialog
@@ -187,16 +231,6 @@ const OverviewDialog = () => {
               <Button
                 startIcon={<ChevronLeftRounded />}
                 onClick={handleBack}
-                variant="text"
-                sx={{ display: { xs: 'none', sm: 'flex' } }}
-              >
-                {translation("previous")}
-              </Button>
-            )}
-            {activeStep !== 0 && (
-              <Button
-                startIcon={<ChevronLeftRounded />}
-                onClick={handleBack}
                 variant="outlined"
                 fullWidth
                 sx={{ display: { xs: 'flex', sm: 'none' } }}
@@ -204,13 +238,23 @@ const OverviewDialog = () => {
                 {translation("previous")}
               </Button>
             )}
+
+            <Button
+              startIcon={backButtonProps?.icon}
+              onClick={backButtonProps.onClick}
+              variant="text"
+              sx={{ display: { xs: 'none', sm: 'flex' } }}
+            >
+              {backButtonProps.label}
+            </Button>
+
             <Button
               variant="contained"
-              endIcon={<ChevronRightRounded />}
-              onClick={isLastStep ? handleSubmitRequestReservation : handleNext}
+              endIcon={nextButtonProps?.icon}
+              onClick={nextButtonProps.onClick}
               sx={{ width: { xs: '100%', sm: 'fit-content' } }}
             >
-              {isLastStep ? translation("requestReservation") : translation("next")}
+              {nextButtonProps.label}
             </Button>
           </Box>
         </Grid>
