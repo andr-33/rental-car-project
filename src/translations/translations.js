@@ -87,7 +87,7 @@ export const translations = {
     addCar: 'Añadir Coche',
     editCar: 'Editar Coche',
     filterCategory: 'Filtrar por Categoría',
-    filterAvailability: 'Filtrar por Disponibilidad', 
+    filterAvailability: 'Filtrar por Disponibilidad',
     id: 'ID',
     carModel: 'Modelo',
     carYear: 'Año',
@@ -111,7 +111,17 @@ export const translations = {
     active: 'Activo',
     completed: 'Completado',
     uploadImage: 'Subir Imagen',
-    clickUpload: 'Click para subir una imagen'
+    clickUpload: 'Click para subir una imagen',
+    //Price Details
+    insurance: 'Seguro',
+    insuranceDesc: 'Cobertura de accidentes',
+    gas: 'Gasolina',
+    gasDesc: 'Tanque lleno',
+    cleaningService: 'Limpieza',
+    cleaningServiceDesc: 'Servicio de limpieza',
+    free: 'Gratis',
+    extraCharges: 'Cargos Extras',
+    basePrice: 'Precio Base',
   },
   en: {
     title: 'Dominicar',
@@ -225,6 +235,16 @@ export const translations = {
     active: 'Active',
     completed: 'Completed',
     uploadImage: 'Upload Image',
-    clickUpload: 'Click to upload an image'
+    clickUpload: 'Click to upload an image',
+    //Price Details
+    insurance: 'Insurance',
+    insuranceDesc: 'Accident coverage',
+    gas: 'Gas',
+    gasDesc: 'Full tank',
+    cleaningService: 'Cleaning',
+    cleaningServiceDesc: 'Full cleaning',
+    free: 'Free',
+    extraCharges: 'Extra Charges',
+    basePrice: 'Base Price',
   }
 };
