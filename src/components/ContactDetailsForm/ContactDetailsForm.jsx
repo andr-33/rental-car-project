@@ -11,7 +11,7 @@ import InputField from "../InputField/InputField";
 
 import axios from "axios";
 
-const ContactDetailsForm = () => {
+const ContactDetailsForm = ({ errors }) => {
   const { sessionToken } = useAuth();
   const { contactDetails, setContactDetails } = useOverview();
 
@@ -25,7 +25,7 @@ const ContactDetailsForm = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try { 
+      try {
         const response = await axios.get('/api/user/auth', {
           headers: {
             Authorization: `Bearer ${sessionToken}`,
@@ -37,7 +37,7 @@ const ContactDetailsForm = () => {
       }
     };
 
-    if(!contactDetails.full_name){
+    if (!contactDetails.full_name) {
       fetchUserData();
     }
   }, []);
@@ -46,7 +46,7 @@ const ContactDetailsForm = () => {
     <Box component="form">
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <InputField 
+          <InputField
             labelKey={'fullName'}
             name={'full_name'}
             value={contactDetails.full_name}
@@ -55,7 +55,7 @@ const ContactDetailsForm = () => {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <InputField 
+          <InputField
             labelKey={'passport'}
             name={'passport'}
             value={contactDetails.passport}
@@ -64,53 +64,58 @@ const ContactDetailsForm = () => {
           />
         </Grid>
         <Grid size={12}>
-          <InputField 
+          <InputField
             labelKey={'address'}
             name={'address'}
             value={contactDetails.address}
             onChange={handleChange}
             fullWidth
             required
+            error={errors?.address}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <InputField 
+          <InputField
             labelKey={'country'}
             name={'country'}
             value={contactDetails.country}
             onChange={handleChange}
             fullWidth
             required
+            error={errors?.country}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <InputField 
+          <InputField
             labelKey={'city'}
             name={'city'}
             value={contactDetails.city}
             onChange={handleChange}
             fullWidth
             required
+            error={errors?.city}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <InputField 
+          <InputField
             labelKey={'zipCode'}
             name={'zip_code'}
             value={contactDetails.zip_code}
             onChange={handleChange}
             fullWidth
             required
+            error={errors?.zip_code}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <InputField 
+          <InputField
             labelKey={'phone'}
             name={'phone'}
             value={contactDetails.phone}
             onChange={handleChange}
             fullWidth
             required
+            error={errors?.phone}
           />
         </Grid>
       </Grid>

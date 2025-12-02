@@ -21,21 +21,22 @@ const InputField = ({
   const { translation } = useLanguage();
 
   return (
-     <FormControl
+    <FormControl
       fullWidth={fullWidth}
       required={required}
       error={error}
-     >
-      <FormLabel sx={{fontSize: '16px'}}>{translation(labelKey)}</FormLabel>
-      <TextField 
+    >
+      <FormLabel sx={{ fontSize: '16px' }}>{translation(labelKey)}</FormLabel>
+      <TextField
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
+        error={error}
       />
-     </FormControl>   
+    </FormControl>
   );
 };
 

@@ -14,7 +14,9 @@ import { Close, ChevronLeftRounded, ChevronRightRounded } from '@mui/icons-mater
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useOverview } from '../../contexts/OverViewContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { NotificationProvider, useNotification } from '../../contexts/NotificationContext';
 
+import Notification from '../Notification/Notification';
 import ContactDetailsForm from '../ContactDetailsForm/ContactDetailsForm';
 import PriceDeatils from '../PriceDetails/PriceDetails';
 import StepSection from '../StepSection/StepSection';
@@ -29,18 +31,7 @@ const Transition = forwardRef((props, ref) => {
 
 const steps = ['contactDetail', 'review'];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <ContactDetailsForm />;
-    case 1:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
-const OverviewDialog = () => {
+const OverviewDialogContent = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   const isLastStep = activeStep === steps.length - 1;
@@ -48,8 +39,41 @@ const OverviewDialog = () => {
   const { translation } = useLanguage();
   const { overview, contactDetails, openOverviewDialog, toggleOverviewDialog } = useOverview();
   const { sessionToken } = useAuth();
+  const { openNotification, updateNotification, closeNotification, notification } = useNotification();
+  const [errors, setErrors] = useState({});
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <ContactDetailsForm errors={errors} />;
+      case 1:
+        return <Review />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
 
   const handleNext = () => {
+    if (activeStep === 0) {
+      const newErrors = {};
+      let isValid = true;
+      const requiredFields = ['address', 'country', 'city', 'zip_code', 'phone'];
+
+      requiredFields.forEach(field => {
+        if (!contactDetails[field]) {
+          newErrors[field] = true;
+          isValid = false;
+        }
+      });
+
+      setErrors(newErrors);
+
+      if (!isValid) {
+        updateNotification('fillRequiredFields', 'error');
+        openNotification();
+        return;
+      }
+    }
     setActiveStep(activeStep + 1);
   };
 
@@ -259,7 +283,16 @@ const OverviewDialog = () => {
           </Box>
         </Grid>
       </Grid>
+      <Notification notification={notification} closeNotification={closeNotification} />
     </Dialog>
+  );
+};
+
+const OverviewDialog = () => {
+  return (
+    <NotificationProvider>
+      <OverviewDialogContent />
+    </NotificationProvider>
   );
 };
 

@@ -122,6 +122,7 @@ export const translations = {
     free: 'Gratis',
     extraCharges: 'Cargos Extras',
     basePrice: 'Precio Base',
+    fillRequiredFields: 'Por favor, rellena todos los campos requeridos',
   },
   en: {
     title: 'Dominicar',
@@ -246,5 +247,6 @@ export const translations = {
     free: 'Free',
     extraCharges: 'Extra Charges',
     basePrice: 'Base Price',
+    fillRequiredFields: 'Please fill in all required fields',
   }
 };
