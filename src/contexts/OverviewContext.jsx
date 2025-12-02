@@ -30,7 +30,9 @@ const INITIAL_VALUES_OVERVIEW = {
   pickup_date: null,
   return_date: null,
   rental_days: 0,
-  total_amount: 0.0,
+  extra_charges: 0,
+  base_price: 0,
+  total_amount: 0,
 };
 
 export const OverviewProvider = ({ children }) => {

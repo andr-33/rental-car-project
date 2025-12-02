@@ -27,7 +27,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
   const handleClose = () => setOpen(false);
 
   const setOverviewInformation = () => {
-    updateOverview("total_amount", totalPrice);
+    updateOverview("base_price", totalPrice);
     updateOverview("car_id", car.id);
     updateOverview("model", car.model);
     updateOverview("car_main_image", car.images[0]?.url);
@@ -77,10 +77,10 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
         />
 
         {/* Detalles */}
-        <Box 
-          sx={{ 
-            flex: 1, 
-            px: 2, 
+        <Box
+          sx={{
+            flex: 1,
+            px: 2,
             width: "100%"
           }}
         >

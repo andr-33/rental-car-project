@@ -9,6 +9,7 @@ import {
   Box,
   Grid,
   Button,
+  CircularProgress,
 } from '@mui/material';
 import { Close, ChevronLeftRounded, ChevronRightRounded } from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -41,6 +42,7 @@ const OverviewDialogContent = () => {
   const { sessionToken } = useAuth();
   const { openNotification, updateNotification, closeNotification, notification } = useNotification();
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   function getStepContent(step) {
     switch (step) {
@@ -93,6 +95,7 @@ const OverviewDialogContent = () => {
       return {
         label: translation("requestReservation"),
         onClick: handleSubmitRequestReservation,
+        loading: loading,
       }
     }
 
@@ -121,9 +124,10 @@ const OverviewDialogContent = () => {
   };
 
   const handleSubmitRequestReservation = async () => {
+    setLoading(true);
     const rentalData = { ...contactDetails, ...overview }
     try {
-      const response = await axios.post('/api/rental/create-request', rentalData, {
+      await axios.post('/api/rental/create-request', rentalData, {
         headers: {
           Authorization: `Bearer ${sessionToken}`,
         },
@@ -132,9 +136,9 @@ const OverviewDialogContent = () => {
       handleNext();
     } catch (error) {
       console.error(error.response.data.error.message);
+    } finally {
+      setLoading(false);
     }
-
-    handleNext();
   };
 
   const nextButtonProps = getNextButtonProps();
@@ -277,8 +281,9 @@ const OverviewDialogContent = () => {
               endIcon={nextButtonProps?.icon}
               onClick={nextButtonProps.onClick}
               sx={{ width: { xs: '100%', sm: 'fit-content' } }}
+              disabled={nextButtonProps.loading}
             >
-              {nextButtonProps.label}
+              {nextButtonProps.loading ? <CircularProgress size={24} color="inherit" /> : nextButtonProps.label}
             </Button>
           </Box>
         </Grid>

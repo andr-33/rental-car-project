@@ -9,10 +9,11 @@ import {
 
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useOverview } from "../../contexts/OverViewContext";
+import { useEffect } from "react";
 
 const PriceDeatils = () => {
   const { translation } = useLanguage();
-  const { overview } = useOverview();
+  const { overview, updateOverview } = useOverview();
 
   const theme = useTheme();
 
@@ -37,8 +38,12 @@ const PriceDeatils = () => {
     },
   ];
 
-  const extraCharges = products.reduce((acc, product) => acc + product.value, 0);
-  const total = (overview.total_amount || 0) + extraCharges;
+  useEffect(() => {
+    const extraCharges = products.reduce((acc, product) => acc + product.value, 0);
+    updateOverview('extra_charges', extraCharges);
+    const total = (overview.base_price || 0) + extraCharges;
+    updateOverview('total_amount', total);
+  }, []);
 
   return (
     <Box
@@ -105,7 +110,7 @@ const PriceDeatils = () => {
               fontWeight: 'medium'
             }}
           >
-            {translation('extraCharges')}: {extraCharges.toFixed(2)}€
+            {translation('extraCharges')}: {overview.extra_charges.toFixed(2)}€
           </Typography>
           <Typography
             variant="body2"
@@ -115,10 +120,10 @@ const PriceDeatils = () => {
               fontWeight: 'medium'
             }}
           >
-            {translation('basePrice')}: {overview.total_amount.toFixed(2)}€
+            {translation('basePrice')}: {overview.base_price.toFixed(2)}€
           </Typography>
           <Typography variant="body2" sx={{ fontWeight: 'medium', fontSize: "1.5em" }}>
-            Total: {total.toFixed(2)}€
+            Total: {overview.total_amount.toFixed(2)}€
           </Typography>
         </Box>
       </Box>
