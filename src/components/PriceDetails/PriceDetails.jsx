@@ -21,13 +21,13 @@ const PriceDeatils = () => {
     {
       name: translation('insurance'),
       desc: translation('insuranceDesc'),
-      price: '30.00€',
+      price: '$30',
       value: 30,
     },
     {
       name: translation('gas'),
       desc: translation('gasDesc'),
-      price: '15.00€',
+      price: '$15',
       value: 15,
     },
     {
@@ -110,7 +110,7 @@ const PriceDeatils = () => {
               fontWeight: 'medium'
             }}
           >
-            {translation('extraCharges')}: {overview.extra_charges.toFixed(2)}€
+            {translation('extraCharges')}: ${overview.extra_charges}
           </Typography>
           <Typography
             variant="body2"
@@ -120,10 +120,10 @@ const PriceDeatils = () => {
               fontWeight: 'medium'
             }}
           >
-            {translation('basePrice')}: {overview.base_price.toFixed(2)}€
+            {translation('basePrice')}: ${overview.base_price}
           </Typography>
           <Typography variant="body2" sx={{ fontWeight: 'medium', fontSize: "1.5em" }}>
-            Total: {overview.total_amount.toFixed(2)}€
+            Total: ${overview.total_amount}
           </Typography>
         </Box>
       </Box>

@@ -1,59 +1,53 @@
+import { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
-  Typography,
   Button,
-  IconButton,
   Divider,
   Box,
 } from '@mui/material';
 import {
-  Instagram,
-  YouTube,
-  X,
   Language,
 } from '@mui/icons-material';
 
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const HomeAppBar = () => {
+  const [allowAuthentication, setAllowAuthentication] = useState(true);
   const { language, toggleLanguage, translation } = useLanguage();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setAllowAuthentication(false);
+    }
+  }, []);
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-          {translation('title')}
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton
-            color="inherit"
-            component="a"
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Instagram />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            component="a"
-            href="https://www.youtube.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <YouTube />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            component="a"
-            href="https://www.x.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <X />
-          </IconButton>
+        <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'start' }}>
+          <Box
+            component={'img'}
+            src={'/images/logo blanco.png'}
+            alt="Logo"
+            sx={{ width: '100px', height: 'auto' }}
+            onClick={() => navigate('/')}
+          />
         </Box>
+        {allowAuthentication && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Button variant="outlined" color="inherit" onClick={() => navigate('/auth')}>
+              {translation('login')}
+            </Button>
+            <Button variant="outlined" color="inherit" onClick={() => navigate('/register')}>
+              {translation('signUp')}
+            </Button>
+          </Box>
+        )}
         <Divider orientation="vertical" variant="middle" flexItem />
         <Button
           color="inherit"

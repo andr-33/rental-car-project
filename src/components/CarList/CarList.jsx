@@ -3,12 +3,12 @@ import {
   Typography,
   Grid,
   Box,
-  CircularProgress,
-  Alert,
+  Skeleton,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext"; 
+import { useAuth } from "../../contexts/AuthContext";
+import { useNotification } from "../../contexts/NotificationContext";
 
 import CarCard from "../CarCard/CarCard";
 import axios from "axios";
@@ -16,13 +16,13 @@ import axios from "axios";
 const CarList = ({ rentalDays, translation, showCars }) => {
   const [loading, setLoading] = useState(false);
   const [carsData, setCarsData] = useState([]);
-  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const { updateNotification, openNotification } = useNotification();
 
   const handleAllowRenting = () => {
-    if(!isAuthenticated){
+    if (!isAuthenticated) {
       navigate("/auth");
     }
   };
@@ -31,7 +31,6 @@ const CarList = ({ rentalDays, translation, showCars }) => {
     if (!showCars) return;
 
     setLoading(true);
-    setError(null);
 
     const fetchCarsData = async () => {
       try {
@@ -39,10 +38,12 @@ const CarList = ({ rentalDays, translation, showCars }) => {
         setCarsData(carsData.data);
       } catch (error) {
         console.error(error.response.data.error.message);
-        
-        setError("Error al cargar los autos 🚨");
+        updateNotification(error.response.data.error.code, "error");
+        openNotification();
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       }
     };
     fetchCarsData();
@@ -58,25 +59,23 @@ const CarList = ({ rentalDays, translation, showCars }) => {
         </Typography>
 
         {loading && (
-          <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-            <CircularProgress />
-          </Box>
+          <Grid container spacing={2}>
+            {[1, 2, 3, 4].map((item) => (
+              <Grid size={{ xs: 12, md: 6 }} key={item}>
+                <Skeleton variant="rectangular" height={200} sx={{ borderRadius: 2, mb: 1 }} />
+              </Grid>
+            ))}
+          </Grid>
         )}
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-
-        {!loading && !error && (
+        {!loading && (
           <Grid container spacing={2}>
             {carsData?.map((car) => (
               <Grid size={{ xs: 12, md: 6 }} key={car.id}>
-                <CarCard 
+                <CarCard
                   handleAllowRenting={handleAllowRenting}
-                  car={car} 
-                  rentalDays={rentalDays} 
+                  car={car}
+                  rentalDays={rentalDays}
                 />
               </Grid>
             ))}

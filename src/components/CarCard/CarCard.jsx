@@ -115,7 +115,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
                 {translation('pricePerDay')}
               </Typography>
               <Typography variant="h6" color="primary">
-                {car.daily_price} € / día
+                ${car.daily_price} / día
               </Typography>
 
               {rentalDays > 0 && (
@@ -127,7 +127,7 @@ const CarCard = ({ handleAllowRenting, car, rentalDays }) => {
                     fontWeight='bold'
                     color="error"
                   >
-                    {totalPrice} €
+                    ${totalPrice}
                   </Typography>
                 </Typography>
               )}

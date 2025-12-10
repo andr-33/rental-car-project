@@ -1,6 +1,6 @@
 export const translations = {
   es: {
-    title: 'Dominicar',
+    title: 'JR Drive',
     selectAirport: 'Seleccionar Aeropuerto',
     airport: 'Aeropuerto',
     pickupDate: 'Fecha de Recogida',
@@ -125,7 +125,7 @@ export const translations = {
     fillRequiredFields: 'Por favor, rellena todos los campos requeridos',
   },
   en: {
-    title: 'Dominicar',
+    title: 'JR Drive',
     selectAirport: 'Select Airport',
     airport: 'Airport',
     pickupDate: 'Pickup Date',
