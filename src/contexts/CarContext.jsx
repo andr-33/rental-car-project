@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from 'react';
-import { mockRentals } from '../data/mockData';
 
 const CarContext = createContext();
 
@@ -13,7 +12,6 @@ export const useCarContext = () => {
 
 export const CarProvider = ({ children }) => {
   const [cars, setCars] = useState([]);
-  const [rentals] = useState(mockRentals);
 
   const addCar = (newCar) => {
     setCars([...cars, newCar]);
@@ -28,14 +26,14 @@ export const CarProvider = ({ children }) => {
   };
 
   const toggleStatus = (id) => {
-    setCars(cars.map(car => 
+    setCars(cars.map(car =>
       car.id === id ? { ...car, available: !car.available } : car
     ));
   };
 
   const monthlyStats = () => {
     const availableCars = cars.filter(car => car.available).length;
-    return{
+    return {
       totalCars: cars.length,
       availableCars,
     };
@@ -45,7 +43,6 @@ export const CarProvider = ({ children }) => {
     <CarContext.Provider value={{
       cars,
       setCars,
-      rentals,
       addCar,
       updateCarList,
       deleteCar,

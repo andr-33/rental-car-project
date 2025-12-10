@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Typography,
   Box,
@@ -9,32 +9,53 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { useCarContext } from '../../contexts/CarContext';
 
 import dayjs from 'dayjs';
+import axios from 'axios';
 
 const RentalLog = () => {
+  const [rentals, setRentals] = useState([]);
   const [filterAvailability, setFilterAvailability] = useState('All');
 
   const theme = useTheme();
   const { translation } = useLanguage();
-  const { rentals } = useCarContext();
 
   const filteredRentals = rentals.filter(rental => {
     const availabilityMatch =
       filterAvailability === 'All' ||
-      (filterAvailability === 'Active' && rental.status === 'Active') ||
-      (filterAvailability === 'Completed' && rental.status === 'Completed');
+      (filterAvailability === 'Solicited' && rental.status === 'solicited') ||
+      (filterAvailability === 'Active' && rental.status === 'active') ||
+      (filterAvailability === 'Completed' && rental.status === 'completed');
     return availabilityMatch;
   });
 
+  const getChipProps = (status) => {
+    switch (status) {
+      case 'solicited':
+        return {
+          label: translation('solicited'),
+          color: 'warning',
+        };
+      case 'active':
+        return {
+          label: translation('active'),
+          color: 'success',
+        };
+      case 'completed':
+        return {
+          label: translation('completed'),
+          color: 'info',
+        };
+    }
+  };
+
   const columns = [
-    { 
-      field: 'model', 
+    {
+      field: 'model',
       headerName: translation('car'),
       headerAlign: 'center',
       align: 'center',
-      flex: 0.7 
+      flex: 0.7,
     },
     {
       field: 'license_plate',
@@ -43,30 +64,30 @@ const RentalLog = () => {
       align: 'center',
       flex: 0.5,
     },
-    { 
-      field: 'customerName',
+    {
+      field: 'customer',
       headerName: translation('customer'),
       headerAlign: 'center',
       align: 'center',
-      flex: 0.7 
+      flex: 0.7
     },
-    { 
-      field: 'totalDays',
+    {
+      field: 'rental_days',
       headerName: translation('days'),
       headerAlign: 'center',
       align: 'center',
       flex: 0.3,
     },
-    { 
-      field: 'startDate',
-      headerName: translation('pickup'), 
+    {
+      field: 'pickup_date',
+      headerName: translation('pickup'),
       headerAlign: 'center',
       align: 'center',
-      flex: 0.5, 
+      flex: 0.5,
       renderCell: (params) => dayjs(params.value).format('DD/MM/YYYY')
     },
-    { 
-      field: 'endDate',
+    {
+      field: 'return_date',
       headerName: translation('return'),
       headerAlign: 'center',
       align: 'center',
@@ -74,7 +95,7 @@ const RentalLog = () => {
       renderCell: (params) => dayjs(params.value).format('DD/MM/YYYY')
     },
     {
-      field: 'totalAmount',
+      field: 'total_amount',
       headerName: translation('totalPrice'),
       headerAlign: 'center',
       align: 'center',
@@ -87,19 +108,40 @@ const RentalLog = () => {
       headerAlign: 'center',
       align: 'center',
       flex: 0.5,
-      renderCell: (params) => (
-        <Chip
-          label={params.value === 'Active' ? translation('active') : translation('completed')}
-          sx={{
-            bgcolor: params.value === 'Active' ? theme.palette.warning.light : theme.palette.success.light,
-            color: params.value === 'Active' ? theme.palette.warning.dark : theme.palette.success.dark,
-            fontWeight: 'bold',
-          }}
-          size="small"
-        />
-      )
+      renderCell: (params) => {
+        const { label, color } = getChipProps(params.value);
+        return (
+          <Chip
+            label={label}
+            sx={{
+              bgcolor: theme.palette[color].light,
+              color: theme.palette[color].dark,
+              fontWeight: 'bold',
+            }}
+            size="small"
+          />
+        );
+      }
     }
   ];
+
+  useEffect(() => {
+    const fetchRentals = async () => {
+      try {
+        const rentalsData = await axios.get('/api/rental/all-rentals');
+        const rentals = rentalsData.data.map(rental => ({
+          ...rental,
+          model: rental.car_id.model,
+          license_plate: rental.car_id.license_plate,
+          customer: rental.user_id.full_name,
+        }));
+        setRentals(rentals);
+      } catch (error) {
+        console.error(error.response.data.error.message);
+      }
+    };
+    fetchRentals();
+  }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -111,9 +153,10 @@ const RentalLog = () => {
         label={translation('filterAvailability')}
         value={filterAvailability}
         onChange={(e) => setFilterAvailability(e.target.value)}
-        sx={{ minWidth: 200, mb: 3}}
+        sx={{ minWidth: 200, mb: 3 }}
       >
         <MenuItem value="All">{translation('all')}</MenuItem>
+        <MenuItem value="Solicited">{translation('solicited')}</MenuItem>
         <MenuItem value="Active">{translation('active')}</MenuItem>
         <MenuItem value="Completed">{translation('completed')}</MenuItem>
       </TextField>
