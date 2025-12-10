@@ -64,13 +64,20 @@ const CarManagement = () => {
   };
 
   const handleToggleStatus = async (id, newStatus) => {
-    try{
+    // Optimistic update
+    const previousCars = [...cars];
+    const updatedCars = cars.map(car =>
+      car.id === id ? { ...car, available: newStatus } : car
+    );
+    setCars(updatedCars);
+
+    try {
       await axios.put(`/api/car/toggle-status/${id}`, { newStatus });
-      toggleStatus(id);
-    } catch (error){
-      console.error(error.response.data.error.message);
-      updateNotification(error.response.data.error.code, 'error');
+    } catch (error) {
+      console.error(error.response?.data?.error?.message || 'Error updating status');
+      updateNotification(error.response?.data?.error?.code, 'error');
       openNotification();
+      setCars(previousCars);
     }
   };
 
@@ -83,26 +90,26 @@ const CarManagement = () => {
   });
 
   const columns = [
-    { 
-      field: 'model', 
-      headerName: translation('carModel'), 
+    {
+      field: 'model',
+      headerName: translation('carModel'),
       headerAlign: 'center',
-      align: 'center', 
-      flex: 0.7 
+      align: 'center',
+      flex: 0.7
     },
-    { 
-      field: 'year', 
-      headerName: translation('carYear'), 
+    {
+      field: 'year',
+      headerName: translation('carYear'),
       headerAlign: 'center',
-      align: 'center', 
+      align: 'center',
       flex: 0.45
-     },
-    { 
-      field: 'license_plate', 
-      headerName: translation('licensePlate'), 
+    },
+    {
+      field: 'license_plate',
+      headerName: translation('licensePlate'),
       headerAlign: 'center',
-      align: 'center', 
-      flex: 0.5, 
+      align: 'center',
+      flex: 0.5,
     },
     {
       field: 'daily_price',
@@ -168,14 +175,14 @@ const CarManagement = () => {
             onClick={() => handleEditCar(params.row)}
             title={translation('edit')}
           >
-            <EditIcon sx={{ ":hover": {color: theme.palette.primary.main}}} />
+            <EditIcon sx={{ ":hover": { color: theme.palette.primary.main } }} />
           </IconButton>
           <IconButton
             size="small"
             onClick={() => handleDeleteClick(params.row)}
             title={translation('delete')}
           >
-            <DeleteIcon sx={{":hover": { color: theme.palette.error.main}}} />
+            <DeleteIcon sx={{ ":hover": { color: theme.palette.error.main } }} />
           </IconButton>
         </>
       )

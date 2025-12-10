@@ -4,11 +4,12 @@ import {
   Box,
   TextField,
   MenuItem,
-  Chip,
   useTheme
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useNotification } from '../../contexts/NotificationContext';
+import ChipSelector from './ChipSelector';
 
 import dayjs from 'dayjs';
 import axios from 'axios';
@@ -19,7 +20,7 @@ const RentalLog = () => {
 
   const theme = useTheme();
   const { translation } = useLanguage();
-
+  const { updateNotification, openNotification } = useNotification();
   const filteredRentals = rentals.filter(rental => {
     const availabilityMatch =
       filterAvailability === 'All' ||
@@ -49,6 +50,23 @@ const RentalLog = () => {
     }
   };
 
+  const handleUpdateStatus = async (id, newStatus) => {
+    const previousRentals = [...rentals];
+    const updatedRentals = rentals.map(rental =>
+      rental.id === id ? { ...rental, status: newStatus } : rental
+    );
+    setRentals(updatedRentals);
+
+    try {
+      await axios.put(`/api/rental/update-status/${id}`, { newStatus });
+    } catch (error) {
+      console.error(error.response?.data?.error?.message || 'Error updating status');
+      updateNotification(error.response?.data?.error?.code, 'error');
+      openNotification();
+      setRentals(previousRentals);
+    }
+  };
+
   const columns = [
     {
       field: 'model',
@@ -73,7 +91,7 @@ const RentalLog = () => {
     },
     {
       field: 'rental_days',
-      headerName: translation('days'),
+      headerName: translation('days').charAt(0).toUpperCase() + translation('days').slice(1),
       headerAlign: 'center',
       align: 'center',
       flex: 0.3,
@@ -107,21 +125,16 @@ const RentalLog = () => {
       headerName: translation('status'),
       headerAlign: 'center',
       align: 'center',
-      flex: 0.5,
-      renderCell: (params) => {
-        const { label, color } = getChipProps(params.value);
-        return (
-          <Chip
-            label={label}
-            sx={{
-              bgcolor: theme.palette[color].light,
-              color: theme.palette[color].dark,
-              fontWeight: 'bold',
-            }}
-            size="small"
-          />
-        );
-      }
+      flex: 0.8,
+      editable: true,
+      renderCell: (params) => (
+        <ChipSelector
+          value={params.value}
+          onChange={(e) => handleUpdateStatus(params.id, e.target.value)}
+          options={['active', 'completed', 'solicited']}
+          getOptionProps={getChipProps}
+        />
+      )
     }
   ];
 

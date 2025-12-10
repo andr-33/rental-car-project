@@ -75,7 +75,7 @@ export const translations = {
     getAirportsError: 'Error al obtener los aeropuertos',
     getCarsError: 'Error al obtener los coches',
     createCarError: 'Error al crear el coche',
-    updateCarStatusError: 'Error al actualizar el estado',
+    updateStatusError: 'Error al actualizar el estado',
     //Dashboard
     dashboardTitle: 'Panel de Control',
     totalRentals: 'Total de Rentas',
@@ -110,6 +110,7 @@ export const translations = {
     car: 'Coche',
     active: 'Activo',
     completed: 'Completado',
+    solicited: 'Solicitado',
     uploadImage: 'Subir Imagen',
     clickUpload: 'Click para subir una imagen',
     //Price Details
@@ -240,6 +241,7 @@ export const translations = {
     car: 'Car',
     active: 'Active',
     completed: 'Completed',
+    solicited: 'Solicited',
     uploadImage: 'Upload Image',
     clickUpload: 'Click to upload an image',
     //Price Details
