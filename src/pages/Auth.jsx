@@ -8,6 +8,7 @@ import { NotificationProvider, useNotification } from "../contexts/NotificationC
 import HomeAppBar from "../components/HomeAppBar/HomeAppBar";
 import LoginForm from "../components/LoginForm/LoginForm";
 import Notification from "../components/Notification/Notification";
+import Footer from "../components/Footer/Footer";
 
 const Auth = () => {
   const theme = useTheme();
@@ -17,14 +18,13 @@ const Auth = () => {
     <Box sx={{
       display: "flex",
       flexDirection: "column",
-      minHeight: "100vh",
     }}>
       <HomeAppBar />
       <Box sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        flex: 1
+        minHeight: "90dvh",
       }}>
         <Box
           sx={{
@@ -34,15 +34,16 @@ const Auth = () => {
             px: 2,
             py: 4,
             bgcolor: theme.palette.background.paper,
-            width: {xs: "325px", md: "450px"},
+            width: { xs: "325px", md: "450px" },
             margin: "0 auto",
           }}
         >
           <LoginForm />
         </Box>
       </Box>
-      <Notification 
-        notification={notification} 
+      <Footer />
+      <Notification
+        notification={notification}
         closeNotification={closeNotification}
       />
     </Box>

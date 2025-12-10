@@ -27,6 +27,7 @@ import CarList from '../components/CarList/CarList';
 import OverviewDialog from '../components/OverviewDialog/OverviewDialog';
 import HomeAppBar from '../components/HomeAppBar/HomeAppBar';
 import Notification from '../components/Notification/Notification';
+import Footer from '../components/Footer/Footer';
 
 const INITIAL_VALUES = {
   airport_code: '',
@@ -81,7 +82,7 @@ const Index = () => {
     const airport = airportsData.find(
       (airport) => airport.code === value
     );
-    
+
     setFormData(prev => ({
       ...prev,
       airport_code: airport.code,
@@ -149,7 +150,7 @@ const Index = () => {
           sx={{
             position: "relative",
             width: "100%",
-            height: showCars ? "40vh" : "100vh",
+            height: showCars ? "40dvh" : "100dvh",
             transition: "height 0.4s ease",
             overflow: "hidden"
           }}
@@ -262,7 +263,7 @@ const Index = () => {
                     fullWidth
                     size="large"
                     startIcon={<Search />}
-                    onClick={()=>{
+                    onClick={() => {
                       handleSearch();
                       handleSetLocalData();
                     }}
@@ -281,6 +282,7 @@ const Index = () => {
           translation={translation}
           showCars={showCars}
         />
+        <Footer />
       </Box>
       <OverviewDialog />
       <Notification

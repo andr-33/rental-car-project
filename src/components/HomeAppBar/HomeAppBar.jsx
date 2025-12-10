@@ -34,7 +34,7 @@ const HomeAppBar = () => {
             component={'img'}
             src={'/images/logo blanco.png'}
             alt="Logo"
-            sx={{ width: '100px', height: 'auto' }}
+            sx={{ width: '100px', height: 'auto', cursor: 'pointer' }}
             onClick={() => navigate('/')}
           />
         </Box>

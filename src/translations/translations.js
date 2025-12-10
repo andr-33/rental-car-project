@@ -123,6 +123,11 @@ export const translations = {
     extraCharges: 'Cargos Extras',
     basePrice: 'Precio Base',
     fillRequiredFields: 'Por favor, rellena todos los campos requeridos',
+    //Footer
+    followUs: 'Síguenos',
+    aboutUs: 'Sobre Nosotros',
+    contactUs: 'Contáctanos',
+    allRightsReserved: 'Todos los derechos reservados',
   },
   en: {
     title: 'JR Drive',
@@ -248,5 +253,10 @@ export const translations = {
     extraCharges: 'Extra Charges',
     basePrice: 'Base Price',
     fillRequiredFields: 'Please fill in all required fields',
+    //Footer
+    followUs: 'Follow Us',
+    aboutUs: 'About Us',
+    contactUs: 'Contact Us',
+    allRightsReserved: 'All rights reserved',
   }
 };
