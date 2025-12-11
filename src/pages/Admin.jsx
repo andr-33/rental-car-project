@@ -11,7 +11,7 @@ import RentalLog from "../components/RentalLog/RentalLog";
 import Notification from "../components/Notification/Notification";
 
 const Admin = () => {
-  const [activeSection, setActiveSection] = useState("rentals");
+  const [activeSection, setActiveSection] = useState("dashboard");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { notification, closeNotification } = useNotification();
 

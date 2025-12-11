@@ -28,6 +28,8 @@ import DeleteConfirmDialog from '../../components/DeleteConfirmDialog/DeleteConf
 
 import axios from 'axios';
 
+let cachedCars = null;
+
 const CarManagement = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
@@ -37,7 +39,7 @@ const CarManagement = () => {
 
   const theme = useTheme();
   const { translation } = useLanguage();
-  const { cars, setCars, toggleStatus, deleteCar } = useCarContext();
+  const { cars, setCars, deleteCar } = useCarContext();
   const { updateNotification, openNotification } = useNotification();
 
   const handleAddCar = () => {
@@ -64,7 +66,6 @@ const CarManagement = () => {
   };
 
   const handleToggleStatus = async (id, newStatus) => {
-    // Optimistic update
     const previousCars = [...cars];
     const updatedCars = cars.map(car =>
       car.id === id ? { ...car, available: newStatus } : car
@@ -190,10 +191,16 @@ const CarManagement = () => {
   ];
 
   useEffect(() => {
+    if (cachedCars) {
+      setCars(cachedCars);
+      return;
+    }
+
     const fetchCarsData = async () => {
       try {
         const carsData = await axios.get('/api/car/all-cars');
         setCars(carsData.data);
+        cachedCars = carsData.data;
       } catch (error) {
         console.error(error.response.data.error.message);
         updateNotification(error.response.data.error.code, 'error');

@@ -1,7 +1,8 @@
-import { 
-  Grid, 
-  Typography, 
-  Box 
+import { useEffect, useState } from 'react';
+import {
+  Grid,
+  Typography,
+  Box
 } from '@mui/material';
 import {
   TrendingUp as TrendingUpIcon,
@@ -10,26 +11,43 @@ import {
   CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext.jsx';
-import { useCarContext } from '../../contexts/CarContext.jsx';
 import StatCard from '../StatCard/StatCard.jsx';
-import { getMonthlyStats } from '../../data/mockData.js';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import 'dayjs/locale/en';
+import axios from 'axios';
 
-const Dashboard = ()=> {
+let cachedStats = null;
+
+const Dashboard = () => {
+  const [stats, setStats] = useState(cachedStats || {});
   const { language, translation } = useLanguage();
-  const { monthlyStats } = useCarContext();
-  const stats = monthlyStats();
-  const mockStats = getMonthlyStats();
   dayjs.locale(language);
 
-  const capitalizeFirstLetter = (string) => {  
+  const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   const currentMonthYear = capitalizeFirstLetter(dayjs().format('MMMM YYYY'));
+
+  useEffect(() => {
+    if (cachedStats) {
+      setStats(cachedStats);
+      return;
+    }
+
+    const fetchMonthlyStats = async () => {
+      try {
+        const response = await axios.get('/api/stats/monthly');
+        setStats(response.data);
+        cachedStats = response.data;
+      } catch (error) {
+        console.error('Error fetching monthly stats:', error);
+      }
+    };
+    fetchMonthlyStats();
+  }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -41,7 +59,7 @@ const Dashboard = ()=> {
         <Grid size={{ xs: 12, sm: 6 }}>
           <StatCard
             title={translation('totalRentals')}
-            value={mockStats.totalRentals}
+            value={stats.total_rentals}
             icon={<ReceiptIcon sx={{ fontSize: 32, color: 'primary.main' }} />}
             color="primary"
           />
@@ -50,7 +68,7 @@ const Dashboard = ()=> {
         <Grid size={{ xs: 12, sm: 6 }}>
           <StatCard
             title={translation('monthlyRevenue')}
-            value={`$${mockStats.totalRevenue.toLocaleString()}`}
+            value={`$${stats.monthly_income?.toLocaleString()}`}
             icon={<TrendingUpIcon sx={{ fontSize: 32, color: 'success.main' }} />}
             color="success"
           />
@@ -59,7 +77,7 @@ const Dashboard = ()=> {
         <Grid size={{ xs: 12, sm: 6 }}>
           <StatCard
             title={translation('activeRentals')}
-            value={mockStats.activeRentals}
+            value={stats.active_rentals}
             icon={<CheckCircleIcon sx={{ fontSize: 32, color: 'warning.main' }} />}
             color="warning"
           />
@@ -68,7 +86,7 @@ const Dashboard = ()=> {
         <Grid size={{ xs: 12, sm: 6 }}>
           <StatCard
             title={translation('availableCars')}
-            value={`${stats.availableCars}/${stats.totalCars}`}
+            value={`${stats.available_cars}/${stats.total_cars}`}
             icon={<CarIcon sx={{ fontSize: 32, color: 'info.main' }} />}
             color="info"
           />

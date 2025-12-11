@@ -14,11 +14,12 @@ import ChipSelector from './ChipSelector';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
+let cachedRentals = null;
+
 const RentalLog = () => {
   const [rentals, setRentals] = useState([]);
   const [filterAvailability, setFilterAvailability] = useState('All');
 
-  const theme = useTheme();
   const { translation } = useLanguage();
   const { updateNotification, openNotification } = useNotification();
   const filteredRentals = rentals.filter(rental => {
@@ -139,6 +140,11 @@ const RentalLog = () => {
   ];
 
   useEffect(() => {
+    if (cachedRentals) {
+      setRentals(cachedRentals);
+      return;
+    }
+
     const fetchRentals = async () => {
       try {
         const rentalsData = await axios.get('/api/rental/all-rentals');
@@ -149,6 +155,7 @@ const RentalLog = () => {
           customer: rental.user_id.full_name,
         }));
         setRentals(rentals);
+        cachedRentals = rentals;
       } catch (error) {
         console.error(error.response.data.error.message);
       }
