@@ -18,12 +18,14 @@ import {
   Close
 } from '@mui/icons-material';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
   const theme = useTheme();
   const { translation } = useLanguage();
+  const navigate = useNavigate();
 
   const menuItems = [
     {
@@ -50,11 +52,7 @@ const AdminDrawer = ({ open, onToggle, onSectionChange, activeSection }) => {
   const logoutItem = {
     name: translation('logout'),
     icon: <Logout />,
-    onClick: () => {
-      // Aquí puedes agregar lógica de logout, como limpiar auth
-      // Por ejemplo, podrías redirigir o disparar un evento
-      console.log('Logout clicked');
-    },
+    onClick: () => navigate('/'),
   };
 
   return (
